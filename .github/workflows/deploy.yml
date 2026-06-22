@@ -31,6 +31,8 @@ jobs:
       - run: npm ci
       - run: npm run build # tsc (type-check) + vite build → web/dist
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true # active Pages si besoin (idempotent)
       - uses: actions/upload-pages-artifact@v3
         with:
           path: web/dist
