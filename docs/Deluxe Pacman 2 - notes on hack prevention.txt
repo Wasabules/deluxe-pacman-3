@@ -1,0 +1,24 @@
+~ Detecting Hacks ~
+
+When a player gets a free life, I store their score into a variable "oldscore", I then compare oldscore to current score the next time they get a free life and if the difference doesn't warrant a free life, hack detected.
+
+I store the current energy level into a variable (oldenergy) before I depleat it when it is being used.  I then check later to see if the two match after I depleat it, and if they do, than hack detected.
+
+If the player dies, I store their current number of lives before I decrease them into a variable (oldlives).  I then compare the stored lives (oldlives) they used to have, with the current lives after they lost one, and if they match, than someone hacked the game.
+
+I stored the total size of my game's executable when it was completed inside the game itself, I then check the game's current executable size with the stored value to help detecting a hack.  And for good measure, I used the stored value in other areas of the game along with a checksum to make certain it wasn't altered either. :)
+
+~ Hack penalties :) ~
+
+If a hack is detected, I DO NOT LET THE PLAYER KNOW I DETECTED IT.  Instead, I make subtle changes to the game they will not notice right away.  This makes it harder for them to figure out if their hacks were successful or not and exactly what triggered their detection.  Plus it's fun for me! :P
+In this game, I shorted the length of time my ghosts stay blue by 25%. (ghost[i].stime *= 0.75f;)
+I also increased the radius of the collision circle around my ghosts so it is easier to collide with one. (ghost[i].r += 5.0f;)
+I also made ghosts move a TINY bit faster. :)
+I allowed them to enter their high score, but I don't bother to save the high score file at all, so the next time they play the game, the high scores won't be there. :)
+
+
+~ Additional notes ~
+
+Add a warning: "The use of modified game files is not recommended or supported. If you run into problems you may need to reinstall the program. Hacks could also contain viruses which could put your entire computer at risk!"
+
+Also throw in random variables into your game, and have your game check them at specific locations.  These would be dummy variables that do absolutely nothing, but if placed in key locations, they can really throw people off that are using programs to scan your game in memory to hack it.  You can change the dummies etc... perhaps at key locations where you don't want them being able to easily figure out where you store lives, where the score etc... is.

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Deluxe Pacman 2" />
+		<Option platforms="Windows;" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option platforms="Windows;" />
+				<Option output="bin/Deluxe Pacman 2 dbg" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="bin" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-Og" />
+					<Add option="-Wall" />
+					<Add option="-ggdb3" />
+					<Add option="-Wno-unused" />
+					<Add option="-DDEBUG" />
+				</Compiler>
+				<Linker>
+					<Add library="allegro_monolith-debug-static" />
+				</Linker>
+			</Target>
+			<Target title="Profile">
+				<Option platforms="Windows;" />
+				<Option output="bin/Deluxe Pacman 2 pro" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="bin" />
+				<Option object_output="obj/Profile/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-Og" />
+					<Add option="-Wall" />
+					<Add option="-pg" />
+					<Add option="-ggdb3" />
+					<Add option="-Wno-unused" />
+					<Add option="-DDEBUG" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg -lgmon" />
+					<Add library="allegro_monolith-profile-static" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option platforms="Windows;" />
+				<Option output="bin/Deluxe Pacman 2" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="bin" />
+				<Option object_output="obj/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-fomit-frame-pointer" />
+					<Add option="-fexpensive-optimizations" />
+					<Add option="-O2" />
+					<Add option="-DRELEASE" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="allegro_monolith-static" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-march=i686" />
+			<Add option="-std=gnu11" />
+			<Add option="-m32" />
+			<Add option="-Werror" />
+		</Compiler>
+		<Linker>
+			<Add option="-m32" />
+			<Add option="-static" />
+			<Add option="-static-libgcc" />
+			<Add option="-static-libstdc++" />
+			<Add option="-DALLEGRO_STATICLINK" />
+			<Add library="mingw32" />
+			<Add library="dumb" />
+			<Add library="FLAC" />
+			<Add library="vorbisfile" />
+			<Add library="vorbis" />
+			<Add library="freetype" />
+			<Add library="ogg" />
+			<Add library="physfs" />
+			<Add library="png16" />
+			<Add library="zlibstatic" />
+			<Add library="gdiplus" />
+			<Add library="uuid" />
+			<Add library="kernel32" />
+			<Add library="winmm" />
+			<Add library="psapi" />
+			<Add library="opengl32" />
+			<Add library="glu32" />
+			<Add library="user32" />
+			<Add library="comdlg32" />
+			<Add library="gdi32" />
+			<Add library="shell32" />
+			<Add library="ole32" />
+			<Add library="advapi32" />
+			<Add library="ws2_32" />
+			<Add library="shlwapi" />
+			<Add library="dsound" />
+			<Add library="jpeg" />
+			<Add library="opusfile" />
+			<Add library="opus" />
+		</Linker>
+		<Unit filename="a5_error.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="a5_error.h">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="a5_scale_screen.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="a5_scale_screen.h">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="a5_screenshot.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="a5_screenshot.h" />
+		<Unit filename="dp2_collision.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="dp2_collision.h" />
+		<Unit filename="dp2_config.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="dp2_config.h" />
+		<Unit filename="dp2_ghost.h" />
+		<Unit filename="dp2_gui.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="dp2_gui.h" />
+		<Unit filename="dp2_hiscore.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="dp2_hiscore.h" />
+		<Unit filename="dp2_main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="dp2_main.h">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="dp2_map.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="dp2_map.h" />
+		<Unit filename="dp2_options.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="dp2_options.h" />
+		<Unit filename="dp2_pacman.h">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="macros.h" />
+		<Unit filename="resource.h">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="resource.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
+		<Unit filename="vec2d_stack.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="vec2d_stack.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars />
+			<AutoVersioning>
+				<Scheme minor_max="10" build_max="0" rev_max="0" rev_rand_max="10" build_times_to_increment_minor="100" />
+				<Settings autoincrement="0" date_declarations="0" use_define="0" update_manifest="0" do_auto_increment="0" ask_to_increment="0" language="C" svn="0" svn_directory="" header_path="..\version.h" />
+				<Changes_Log show_changes_editor="0" app_title="released version %M.%m.%b of %p" changeslog_path="ChangesLog.txt" />
+				<Code header_guard="VERSION_H" namespace="AutoVersion" prefix="" />
+			</AutoVersioning>
+			<DoxyBlocks>
+				<comment_style block="0" line="0" />
+				<doxyfile_project />
+				<doxyfile_build />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot />
+				<general />
+			</DoxyBlocks>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

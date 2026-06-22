@@ -1,0 +1,17 @@
+[package]
+name = "deluxe-pacman-2"
+version = "0.1.0"
+description = "Deluxe Pacman 2 — réécriture web empaquetée pour le bureau"
+authors = ["Neil Roy (jeu original)", "Portage web"]
+edition = "2021"
+rust-version = "1.77"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+
+[features]
+# Active le protocole personnalisé en production (sert le frontend embarqué).
+custom-protocol = ["tauri/custom-protocol"]

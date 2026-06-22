@@ -1,0 +1,10 @@
+node_modules
+dist
+shot*.png
+editor.png
+src-tauri/target
+src-tauri/gen
+*.local
+.vite
+.DS_Store
+Thumbs.db

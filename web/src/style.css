@@ -1,0 +1,41 @@
+:root {
+  color-scheme: dark;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Scène 800x600 mise à l'échelle en CSS (ratio 4:3, letterbox) à la manière de
+   a5_scale_screen. Deux canvas superposés : #bg (décor, peint une fois par niveau)
+   et #game (entités + HUD, redessinés chaque frame). */
+/* Scène 16:9 (1066x600) : jeu centré + HUD latéral synthwave sur les bords. */
+#stage {
+  position: relative;
+  width: min(100vw, 177.667vh);
+  height: min(56.285vw, 100vh);
+}
+#stage canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+}
+/* L'overlay 2D (HUD/écrans, non interactif) laisse passer les clics vers le
+   canvas WebGL en dessous, pour les éléments cliquables du menu (lien crédit). */
+#ui {
+  pointer-events: none;
+}

@@ -1,0 +1,71 @@
+:root {
+  color-scheme: dark;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background: #14141c;
+  color: #e0e0f0;
+  font-family: system-ui, sans-serif;
+  display: flex;
+  justify-content: center;
+}
+#app {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+#toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  max-width: 760px;
+  justify-content: center;
+}
+#toolbar .sep {
+  width: 1px;
+  background: #333;
+  margin: 0 4px;
+}
+#toolbar button {
+  background: #2a2a3a;
+  color: #ddd;
+  border: 1px solid #3a3a4a;
+  border-radius: 5px;
+  padding: 6px 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+#toolbar button:hover {
+  background: #353550;
+}
+#toolbar button.active {
+  background: #ffd23f;
+  color: #111;
+  border-color: #ffd23f;
+  font-weight: bold;
+}
+#editor {
+  border: 2px solid #3a3a4a;
+  image-rendering: pixelated;
+  cursor: crosshair;
+  width: 736px;
+  height: 544px;
+  touch-action: none;
+}
+#status {
+  min-height: 22px;
+  font-size: 14px;
+  font-family: monospace;
+}
+#status.ok {
+  color: #5fd35f;
+}
+#status.err {
+  color: #ff6b6b;
+}

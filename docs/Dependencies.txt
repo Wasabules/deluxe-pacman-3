@@ -1,0 +1,6 @@
+This source code is compiled with the latest Code::Blocks IDE with the MinGW-W64 compiler.
+This uses the latest Allegro 5 library, available at allegro.cc.  The last time I compiled this I compiled the library myself using the CMake GUI and the dependencies and source available at the allegro website already mentioned.
+
+Help is available at that site in the forums if needed.  They also have links to precompiled versions if you don't wish to fool around with compiling it yourself (a hefty task for the new programmer).
+
+There isn't anything else needed except the Allegro dependencies the library itself uses, you can find them at allegro.cc.  Check the forums for the latest.

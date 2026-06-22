@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_layout_file>
+	<FileVersion major="1" minor="0" />
+	<ActiveProject path="Pace_2.cbp" />
+	<PreferredTarget name="Release" />
+	<EditorTabsLayout layout="07433ef85c32b1380000191400000002=7;Deluxe Pacman 2:dp2_map.c,21;Pace 2:p2_main.h,*0;Deluxe Pacman 2:dp2_hiscore.c,1;Deluxe Pacman 2:dp2_options.c,2;Deluxe Pacman 2:macros.h,3;Deluxe Pacman 2:dp2_main.c,4;Deluxe Pacman 2:a5_scale_screen.c,5;Deluxe Pacman 2:vec2d_stack.c,6;Deluxe Pacman 2:vec2d_stack.h,8;Deluxe Pacman 2:a5_error.h,9;Deluxe Pacman 2:a5_scale_screen.h,15;Deluxe Pacman 2:dp2_gui.h,10;Deluxe Pacman 2:dp2_map.h,11;Deluxe Pacman 2:resource.h,12;Deluxe Pacman 2:dp2_pacman.h,13;Deluxe Pacman 2:dp2_options.h,14;Deluxe Pacman 2:dp2_hiscore.h,16;Deluxe Pacman 2:dp2_collision.h,17;Deluxe Pacman 2:a5_screenshot.h,18;Pace 2:p2_edit.c,19;Pace 2:p2_edit.h,20;Pace 2:p2_main.c@layout2|name=dummy;caption=;state=2098174;dir=3;layer=0;row=0;pos=0;prop=100000;bestw=824;besth=372;minw=824;minh=372;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=07433ef85c32b1380000191400000002;caption=;state=2098172;dir=5;layer=0;row=0;pos=0;prop=100000;bestw=200;besth=200;minw=-1;minh=-1;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|dock_size(5,0,0)=202|" />
+</CodeBlocks_workspace_layout_file>

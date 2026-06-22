@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Pace 2" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option platforms="Windows;" />
+				<Option output="bin/Pace 2 dbg" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="bin" />
+				<Option object_output="obj-pace/debug" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-Og" />
+					<Add option="-Wall" />
+					<Add option="-pg" />
+					<Add option="-ggdb3" />
+					<Add option="-Wno-unused" />
+					<Add option="-DDEBUG" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg -lgmon" />
+					<Add library="allegro_monolith-debug-static" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option platforms="Windows;" />
+				<Option output="bin/Pace 2" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="bin" />
+				<Option object_output="obj-pace" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-DRELEASE" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="allegro_monolith-static" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-march=pentium4" />
+			<Add option="-std=gnu11" />
+			<Add option="-m32" />
+			<Add option="-Werror" />
+		</Compiler>
+		<Linker>
+			<Add option="-m32" />
+			<Add option="-static" />
+			<Add option="-static-libgcc" />
+			<Add option="-static-libstdc++" />
+			<Add option="-DALLEGRO_STATICLINK" />
+			<Add library="mingw32" />
+			<Add library="dumb" />
+			<Add library="FLAC" />
+			<Add library="vorbisfile" />
+			<Add library="vorbis" />
+			<Add library="freetype" />
+			<Add library="ogg" />
+			<Add library="physfs" />
+			<Add library="png16" />
+			<Add library="zlibstatic" />
+			<Add library="gdiplus" />
+			<Add library="uuid" />
+			<Add library="kernel32" />
+			<Add library="winmm" />
+			<Add library="psapi" />
+			<Add library="opengl32" />
+			<Add library="glu32" />
+			<Add library="user32" />
+			<Add library="comdlg32" />
+			<Add library="gdi32" />
+			<Add library="shell32" />
+			<Add library="ole32" />
+			<Add library="advapi32" />
+			<Add library="ws2_32" />
+			<Add library="shlwapi" />
+			<Add library="dsound" />
+			<Add library="jpeg" />
+			<Add library="opusfile" />
+			<Add library="opus" />
+		</Linker>
+		<Unit filename="a5_error.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="a5_error.h" />
+		<Unit filename="a5_scale_screen.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="a5_scale_screen.h" />
+		<Unit filename="dp2_config.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="dp2_config.h" />
+		<Unit filename="dp2_display.h" />
+		<Unit filename="dp2_gui.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="dp2_gui.h" />
+		<Unit filename="dp2_map.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="dp2_map.h" />
+		<Unit filename="p2_edit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="p2_edit.h" />
+		<Unit filename="p2_main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="p2_main.h" />
+		<Unit filename="resource.h" />
+		<Unit filename="resource.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
+		<Unit filename="vec2d_stack.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="vec2d_stack.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars />
+			<DoxyBlocks>
+				<comment_style block="0" line="0" />
+				<doxyfile_project />
+				<doxyfile_build />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot />
+				<general />
+			</DoxyBlocks>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

@@ -1,0 +1,495 @@
+# depslib dependency file v1.0
+1459815147 source:c:\develop\projects\deluxe_pacman_2\a5_error.c
+	<stdio.h>
+	<allegro5/allegro_native_dialog.h>
+	"a5_error.h"
+
+1521308003 c:\develop\projects\deluxe_pacman_2\a5_error.h
+
+1348700284 source:c:\develop\projects\deluxe_pacman_2\a5_scale_screen.c
+	"a5_scale_screen.h"
+
+1521308003 c:\develop\projects\deluxe_pacman_2\a5_scale_screen.h
+	<allegro5/allegro.h>
+
+1497368818 source:c:\develop\projects\deluxe_pacman_2\dp2_config.c
+	"dp2_config.h"
+
+1521308003 c:\develop\projects\deluxe_pacman_2\dp2_config.h
+	<stdio.h>
+	<allegro5/allegro.h>
+	<allegro5/allegro_physfs.h>
+	"a5_error.h"
+
+1420064087 source:c:\develop\projects\deluxe_pacman_2\dp2_gui.c
+	"dp2_gui.h"
+
+1521308003 c:\develop\projects\deluxe_pacman_2\dp2_gui.h
+	<stdio.h>
+	<stdbool.h>
+	<allegro5/allegro.h>
+	"a5_error.h"
+	"a5_scale_screen.h"
+
+1497368818 source:c:\develop\projects\deluxe_pacman_2\dp2_map.c
+	<stdio.h>
+	"dp2_map.h"
+	"vec2d_stack.h"
+
+1521308003 c:\develop\projects\deluxe_pacman_2\dp2_map.h
+	<stdlib.h>
+	<time.h>
+	<stdbool.h>
+	"dp2_ghost.h"
+
+1521308003 c:\develop\projects\deluxe_pacman_2\dp2_ghost.h
+	<allegro5\allegro.h>
+	"dp2_map.h"
+
+1521308002 c:\develop\projects\deluxe_pacman_2\vec2d_stack.h
+	<stdbool.h>
+
+1519796987 source:c:\develop\projects\deluxe_pacman_2\p2_edit.c
+	"p2_edit.h"
+
+1521308003 c:\develop\projects\deluxe_pacman_2\p2_edit.h
+	<stdbool.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	<allegro5/allegro.h>
+	<allegro5/allegro_native_dialog.h>
+	<allegro5/allegro_physfs.h>
+	"dp2_map.h"
+	"p2_main.h"
+
+1521308003 c:\develop\projects\deluxe_pacman_2\p2_main.h
+	<allegro5/allegro.h>
+
+1497419109 source:c:\develop\projects\deluxe_pacman_2\p2_main.c
+	<stdio.h>
+	<physfs.h>
+	<allegro5/allegro.h>
+	<allegro5/allegro_physfs.h>
+	<allegro5/allegro_image.h>
+	<allegro5/allegro_primitives.h>
+	<allegro5/allegro_native_dialog.h>
+	<allegro5/allegro_font.h>
+	<allegro5/allegro_ttf.h>
+	"resource.h"
+	"a5_error.h"
+	"p2_main.h"
+	"dp2_map.h"
+	"dp2_gui.h"
+	"p2_edit.h"
+	"dp2_config.h"
+	"a5_scale_screen.h"
+
+1340327808 c:\develop\projects\deluxe_pacman_2\resource.h
+
+1343758431 source:c:\develop\projects\deluxe_pacman_2\resource.rc
+
+1497368818 source:c:\develop\projects\deluxe_pacman_2\vec2d_stack.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"vec2d_stack.h"
+
+1460858622 c:\mingw_dev_lib\a5gitdistro\include\allegro5\allegro_native_dialog.h
+	"allegro5/allegro.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\allegro.h
+	"allegro5/base.h"
+	"allegro5/altime.h"
+	"allegro5/bitmap.h"
+	"allegro5/bitmap_draw.h"
+	"allegro5/bitmap_io.h"
+	"allegro5/bitmap_lock.h"
+	"allegro5/blender.h"
+	"allegro5/clipboard.h"
+	"allegro5/color.h"
+	"allegro5/config.h"
+	"allegro5/cpu.h"
+	"allegro5/debug.h"
+	"allegro5/display.h"
+	"allegro5/drawing.h"
+	"allegro5/error.h"
+	"allegro5/events.h"
+	"allegro5/file.h"
+	"allegro5/fixed.h"
+	"allegro5/fmaths.h"
+	"allegro5/fshook.h"
+	"allegro5/fullscreen_mode.h"
+	"allegro5/haptic.h"
+	"allegro5/joystick.h"
+	"allegro5/keyboard.h"
+	"allegro5/memory.h"
+	"allegro5/monitor.h"
+	"allegro5/mouse.h"
+	"allegro5/mouse_cursor.h"
+	"allegro5/path.h"
+	"allegro5/render_state.h"
+	"allegro5/shader.h"
+	"allegro5/system.h"
+	"allegro5/threads.h"
+	"allegro5/timer.h"
+	"allegro5/tls.h"
+	"allegro5/touch_input.h"
+	"allegro5/transformations.h"
+	"allegro5/utf8.h"
+	"allegro5/alcompat.h"
+
+1460861876 c:\mingw_dev_lib\a5gitdistro\include\allegro5\base.h
+	<errno.h>
+	<limits.h>
+	<limits.h>
+	<stdarg.h>
+	<stddef.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<sys/types.h>
+	<fortify/fortify.h>
+	<dmalloc.h>
+	"allegro5/internal/alconfig.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\internal\alconfig.h
+	"allegro5/platform/alplatf.h"
+	"allegro5/platform/alwatcom.h"
+	"allegro5/platform/almngw32.h"
+	"allegro5/platform/albcc32.h"
+	"allegro5/platform/almsvc.h"
+	"allegro5/platform/aliphonecfg.h"
+	"allegro5/platform/alosxcfg.h"
+	"allegro5/platform/alandroidcfg.h"
+	"allegro5/platform/alraspberrypicfg.h"
+	"allegro5/platform/alucfg.h"
+	"allegro5/platform/allegro_sdl_config.h"
+	"allegro5/platform/astdint.h"
+	"allegro5/platform/astdbool.h"
+
+1461663141 c:\mingw_dev_lib\a5gitdistro\include\allegro5\platform\alplatf.h
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\platform\alwatcom.h
+	<io.h>
+	<i86.h>
+	<conio.h>
+	<fcntl.h>
+	<direct.h>
+	<malloc.h>
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\platform\almngw32.h
+	<io.h>
+	<fcntl.h>
+	<direct.h>
+	<malloc.h>
+	"allegro5/platform/alplatf.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\platform\albcc32.h
+	<io.h>
+	<fcntl.h>
+	<direct.h>
+	<malloc.h>
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\platform\almsvc.h
+	<io.h>
+	<fcntl.h>
+	<direct.h>
+	<malloc.h>
+	"allegro5/platform/alplatf.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\platform\aliphonecfg.h
+	<fcntl.h>
+	<unistd.h>
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\platform\alosxcfg.h
+	"allegro5/platform/alplatf.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\platform\alandroidcfg.h
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\platform\alraspberrypicfg.h
+	<fcntl.h>
+	<unistd.h>
+	<sys/types.h>
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\platform\alucfg.h
+	<fcntl.h>
+	<unistd.h>
+	"alunix.h"
+	"allegro5/platform/alplatf.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\platform\alunix.h
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\platform\allegro_sdl_config.h
+	<fcntl.h>
+	<unistd.h>
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\platform\astdint.h
+	<inttypes.h>
+	<stdint.h>
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\platform\astdbool.h
+	<stdbool.h>
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\altime.h
+	"allegro5/base.h"
+
+1461662713 c:\mingw_dev_lib\a5gitdistro\include\allegro5\bitmap.h
+	"allegro5/color.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\color.h
+	"allegro5/base.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\bitmap_draw.h
+	"allegro5/bitmap.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\bitmap_io.h
+	"allegro5/bitmap.h"
+	"allegro5/file.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\file.h
+	"allegro5/base.h"
+	"allegro5/path.h"
+	"allegro5/utf8.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\path.h
+	"allegro5/base.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\utf8.h
+	"allegro5/base.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\bitmap_lock.h
+	"allegro5/bitmap.h"
+
+1460861876 c:\mingw_dev_lib\a5gitdistro\include\allegro5\blender.h
+	"allegro5/base.h"
+	"allegro5/color.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\clipboard.h
+	"allegro5/base.h"
+	"allegro5/display.h"
+	"allegro5/utf8.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\display.h
+	"allegro5/bitmap.h"
+	"allegro5/color.h"
+	"allegro5/events.h"
+
+1460858622 c:\mingw_dev_lib\a5gitdistro\include\allegro5\events.h
+	"allegro5/altime.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\config.h
+	"allegro5/file.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\cpu.h
+	"allegro5/base.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\debug.h
+	<assert.h>
+	"allegro5/base.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\drawing.h
+	"allegro5/color.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\error.h
+	"allegro5/base.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\fixed.h
+	"allegro5/base.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\fmaths.h
+	"allegro5/base.h"
+	"allegro5/fixed.h"
+	"allegro5/inline/fmaths.inl"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\inline\fmaths.inl
+	"allegro5/error.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\fshook.h
+	"allegro5/base.h"
+	"allegro5/file.h"
+	"allegro5/path.h"
+	<sys/types.h>
+
+1460861876 c:\mingw_dev_lib\a5gitdistro\include\allegro5\fullscreen_mode.h
+	"allegro5/base.h"
+
+1460858622 c:\mingw_dev_lib\a5gitdistro\include\allegro5\haptic.h
+	"allegro5/base.h"
+	"allegro5/display.h"
+	"allegro5/events.h"
+	"allegro5/joystick.h"
+	"allegro5/keyboard.h"
+	"allegro5/mouse.h"
+	"allegro5/touch_input.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\joystick.h
+	"allegro5/base.h"
+	"allegro5/events.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\keyboard.h
+	"allegro5/base.h"
+	"allegro5/events.h"
+	"allegro5/keycodes.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\keycodes.h
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\mouse.h
+	"allegro5/base.h"
+	"allegro5/events.h"
+
+1460858622 c:\mingw_dev_lib\a5gitdistro\include\allegro5\touch_input.h
+	"allegro5/base.h"
+	"allegro5/events.h"
+
+1460861876 c:\mingw_dev_lib\a5gitdistro\include\allegro5\memory.h
+	"allegro5/base.h"
+
+1460861876 c:\mingw_dev_lib\a5gitdistro\include\allegro5\monitor.h
+	"allegro5/base.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\mouse_cursor.h
+	"allegro5/base.h"
+
+1460861876 c:\mingw_dev_lib\a5gitdistro\include\allegro5\render_state.h
+	"allegro5/base.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\shader.h
+	"allegro5/base.h"
+	"allegro5/transformations.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\transformations.h
+	"allegro5/display.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\system.h
+	"allegro5/config.h"
+	"allegro5/path.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\threads.h
+	"allegro5/altime.h"
+
+1460861876 c:\mingw_dev_lib\a5gitdistro\include\allegro5\timer.h
+	"allegro5/base.h"
+	"allegro5/events.h"
+
+1452821737 c:\mingw_dev_lib\a5gitdistro\include\allegro5\tls.h
+	"allegro5/base.h"
+
+1460858622 c:\mingw_dev_lib\a5gitdistro\include\allegro5\alcompat.h
+
+1452821736 c:\mingw_dev_lib\a5gitdistro\include\allegro5\allegro_physfs.h
+	"allegro5/allegro.h"
+
+1350963664 c:\mingw_dev_lib\a5gitdistro\include\physfs.h
+
+1460861876 c:\mingw_dev_lib\a5gitdistro\include\allegro5\allegro_image.h
+	"allegro5/base.h"
+
+1452821736 c:\mingw_dev_lib\a5gitdistro\include\allegro5\allegro_primitives.h
+	<allegro5/allegro.h>
+
+1452821735 c:\mingw_dev_lib\a5gitdistro\include\allegro5\allegro_font.h
+	"allegro5/allegro.h"
+
+1452821736 c:\mingw_dev_lib\a5gitdistro\include\allegro5\allegro_ttf.h
+	"allegro5/allegro.h"
+	"allegro5/allegro_font.h"
+
+1459811547 source:c:\users\neil\desktop\deluxe pacman 2 source\a5_error.c
+	<stdio.h>
+	<allegro5/allegro_native_dialog.h>
+	"a5_error.h"
+
+1521304403 c:\users\neil\desktop\deluxe pacman 2 source\a5_error.h
+
+1348696684 source:c:\users\neil\desktop\deluxe pacman 2 source\a5_scale_screen.c
+	"a5_scale_screen.h"
+
+1521304403 c:\users\neil\desktop\deluxe pacman 2 source\a5_scale_screen.h
+	<allegro5/allegro.h>
+
+1497365218 source:c:\users\neil\desktop\deluxe pacman 2 source\dp2_config.c
+	"dp2_config.h"
+
+1521304403 c:\users\neil\desktop\deluxe pacman 2 source\dp2_config.h
+	<stdio.h>
+	<allegro5/allegro.h>
+	<allegro5/allegro_physfs.h>
+	"a5_error.h"
+
+1420060487 source:c:\users\neil\desktop\deluxe pacman 2 source\dp2_gui.c
+	"dp2_gui.h"
+
+1521304403 c:\users\neil\desktop\deluxe pacman 2 source\dp2_gui.h
+	<stdio.h>
+	<stdbool.h>
+	<allegro5/allegro.h>
+	"a5_error.h"
+	"a5_scale_screen.h"
+
+1497365218 source:c:\users\neil\desktop\deluxe pacman 2 source\dp2_map.c
+	<stdio.h>
+	"dp2_map.h"
+	"vec2d_stack.h"
+
+1521304403 c:\users\neil\desktop\deluxe pacman 2 source\dp2_map.h
+	<stdlib.h>
+	<time.h>
+	<stdbool.h>
+	"dp2_ghost.h"
+
+1521304403 c:\users\neil\desktop\deluxe pacman 2 source\dp2_ghost.h
+	<allegro5\allegro.h>
+	"dp2_map.h"
+
+1521304402 c:\users\neil\desktop\deluxe pacman 2 source\vec2d_stack.h
+	<stdbool.h>
+
+1519793387 source:c:\users\neil\desktop\deluxe pacman 2 source\p2_edit.c
+	"p2_edit.h"
+
+1521304403 c:\users\neil\desktop\deluxe pacman 2 source\p2_edit.h
+	<stdbool.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	<allegro5/allegro.h>
+	<allegro5/allegro_native_dialog.h>
+	<allegro5/allegro_physfs.h>
+	"dp2_map.h"
+	"p2_main.h"
+
+1521304403 c:\users\neil\desktop\deluxe pacman 2 source\p2_main.h
+	<allegro5/allegro.h>
+
+1497415509 source:c:\users\neil\desktop\deluxe pacman 2 source\p2_main.c
+	<stdio.h>
+	<physfs.h>
+	<allegro5/allegro.h>
+	<allegro5/allegro_physfs.h>
+	<allegro5/allegro_image.h>
+	<allegro5/allegro_primitives.h>
+	<allegro5/allegro_native_dialog.h>
+	<allegro5/allegro_font.h>
+	<allegro5/allegro_ttf.h>
+	"resource.h"
+	"a5_error.h"
+	"p2_main.h"
+	"dp2_map.h"
+	"dp2_gui.h"
+	"p2_edit.h"
+	"dp2_config.h"
+	"a5_scale_screen.h"
+
+1340324208 c:\users\neil\desktop\deluxe pacman 2 source\resource.h
+
+1343754831 source:c:\users\neil\desktop\deluxe pacman 2 source\resource.rc
+
+1497365218 source:c:\users\neil\desktop\deluxe pacman 2 source\vec2d_stack.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"vec2d_stack.h"
+

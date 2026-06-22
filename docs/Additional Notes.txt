@@ -1,0 +1,30 @@
+I am releasing this source under the MIT license (see LICENCE.TXT) as it is pretty liberal and allows you to what pretty much whatever you wish, just mention the copyright and owner, which isn't much to ask.
+
+This source is 100% pure C source code.  It compiles with a proper C compiler, not a C++ compiler.  Would C++ have been better?  Possible, it depends on your point of view.  But i started in C, and so both versions of this were in C.  I still prefer C to be honest, though C++ has some really nice features these days. I would recommend people use C++, you can still code in a C style without classes and have the newer features at your disposal, like vectors and such.  But I digress.
+
+The "Deluxe Pacman 2.pak" file, included in the bin folder is simply a ZIP file renamed.  You can use something like 7Zip and tell it to open it and it will.  It's not rocket science.  If you change it and enable hack detection (unlikely, but you never know) than you will have to enter the file size of the pak file in the "dp2_main.h", change the "#define PAKSIZE" line so it has the right size.  I have this turned off by default.  I was having fun for a while testing this out with someone that was hacking my game.  This worked rather well, it doesn't let anyone know it detects the hack, it just alters the game in fun, annoying ways. :)  You may be interested in examining the various ideas I came up with for detecting hacking and for making it more difficult.  One of the methods was to detect a change in the size of this file anyhow, which indicates someone has changed the contents of it.  This particular check can be disabled in the ini file (I have a separate document that says how).  OR you can just rip out all the hack checks entirely and be done with it.  You can find all the hack related code by searching for "/// *** HACK CHECK ***", I have this comment before all relevant code.
+
+You can also find little TODO notes in the code for ideas I meant to implement but never got around to.  Just search for "/// TODO" to read all of them.  Code::Blocks has a TODO feature which will detect these and list them as well.
+
+I make no apologies for how I program.  The source code will make a lot of people cringe.  I don't tend to follow trends or whatever.  I find there is a lot of paranoia over certain things (like global variables), things I simply never had a problem with, though I did TRY and limit them, some can't be helped and I simply refuse to jump through hoops to avoid them because of how someone else feels.  
+
+I made a note about my coding style at the top of dp2_main.c, but I will repeat it here.  I DO stick to a certain style, and Code::Blocks makes it really easy to reformat your code to your own style, which I like.
+
+Code syntax:
+- I use the K&R style unless otherwise stated.
+- Indentations are 3 space (spaces not tabs).
+- All filenames have the first letter of each word in the filename capitalized and use underscores to separate words.  Extensions are in lower case.
+- Braces for commands are placed so the opening brace is on the same line as the command and the final brace is on a line of it's own.  I don't tend to use braces for single commands, only where needed (I like my vertical space).
+- "else" and "else if" will start on their own line.
+- variables start in lower case, using underscores to separate words like this: int my_variable
+- Functions are like variables, all lower case with underscores to separate words, like this: my_function() 
+- Macros, structs and typedefs are in all uppercase and separated by underscores like this: #define MY_MACRO
+
+I tried my best to comment as much of this code as is needed, this was something I done when I first started developing it as I went long periods of time not working on it and it helped me recall what I was doing.  You can also read a rather LENGTH journal in the docs folder which contains entries I made as I worked on this over the years.  Sometimes I was annoyed and it showed, I didn't bother editing it as people change over time, but I left it in for historical purposes.  I don't nessecarily feel the same anymore as some comments I made, but... it is what it is.
+
+I don't know if this is worth looking over or learning from, perhaps how NOT to do it?  Who knows, I did it, it works and between Deluxe Pacman 1 and Deluxe Pacman 2, the game was downloaded probably at least 10 million times over the years, if not more (I am not exaggerating).  And no, I did not make hardly anything off of this as only about 1 in a million (again, not exaggerating) actually donated.  And I am not complaining about that too much, I originally done this as a labour of love for my wife back when I started.  But when my interest in programming this runs dry, the ONLY reason I would continue is if I got donations.  Otherwise, I didn't bother.  Well, it's been quite years since I last worked on this a lot... and there are no donation and I would hate to die and have this never released, so I decided to release the source for the newest version of the game as version 1 is really messy and based on Allegro 4 which is a really old version of the library.  There isn't anything you can do in Deluxe Pacman 1 that cannot be done in Deluxe Pacman 2.  And I improved many of my routines in the second version and my code doesn't look nearly as bad (to me) with FAR fewer global variables.  If you hate globals, you would have had a heart attack if you seen version 1!!! LOL... I was still fairly new to programming and so I made globals a lot, some I really wonder what I was thinking at the time, but... anyhow... not releasing that code.. not yet anyhow, maybe in the future just as an example of how NOT to do it. <shrug>  Maybe this source is an example of that as well, I don't know.
+
+I hope someone gets something out of this.  If you remake a new version and make a million dollars off of it, please remember me, I am poor. ;)
+
+Have a good one;
+     Neil Roy

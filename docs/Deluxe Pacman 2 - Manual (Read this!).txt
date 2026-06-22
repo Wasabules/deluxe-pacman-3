@@ -1,0 +1,186 @@
+───▄████▄─────                          ───▄████▄─────
+──███▄█▀──────                          ──███▄█▀──────
+─▐████──█──█── DELUXE PACMAN 2 - Manual ─▐████──█──█──
+──█████▄──────                          ──█████▄──────
+───▀████▀─────                          ───▀████▀─────
+
+In this document...
+
+- Game Play
+- Options
+- Level Editor
+- Troubleshooting
+- Misc Comments & Rants
+
+
+*** GAME PLAY ***
+
+Important note; there may be unforseen bugs or other problems with the game I do not know about.  I try my best to check for all bugs but I am only human, and I am the only one working on this. Use it at your own risk, I will not be held responsible for any problems you may encounter.  By running the game you accept any and all risks.  No warranties are implied at all.  Hey, what do you want for nothing? ;)
+
+You can select up to four players now.  Each person plays until their character dies, play then switches to the next person in order, player 1, then 2, then 3, then 4 then back to 1 or whomever still has lives remaining.  If anyone exits the game, it exits it for all players currently, though I may change this in t he future.  Also, only one saved game can exist, and it is always single player if loaded.
+
+The following controls are used in game...
+
+~ KEYBOARD ~
+Cursor Up    / W / Keypad 8 : Move player UP/NORTH or navigate menus UP.
+Cursor Down  / S / Keypad 2 : Move player DOWN/SOUTH or navigate menus DOWN.
+Cursor Left  / A / Keypad 4 : Move player LEFT/WEST (also navigates up or left on Options).
+Cursor Right / D / Keypad 6 : Move player RIGHT/EAST (also navigates down or right on Options).
+ENTER = Selects menu options/Continues to next screen
+ESC = exits menus and exits game (also if close button is clicked in windowed mode)
+CTRL = Uses energy to speed up pacman's movement (orange bar in bottom right corner)
+SPACE - fires the gun when you have it
+F12 = Takes a Screenshot (saved in a "Screenshots" folder in the same folder as your game).
+DELETE = You can press the DELETE key while on the Hall of Fame screen to clear the high scores.
+Note: There are also CHEAT keys you can use in cheat mode, see "Deluxe Pacman 2 - Cheat Keys.txt" in the game's "docs" folder wherever you installed, for more info on how to enable and use this (better to use my cheats than hack the game which is dangerous and I do not support it).
+
+~ MOUSE ~
+Mouse support has been added for all menus and selections as well as the windowed mode close button.  You cannot move Pacman with the mouse, but you can start a game, select any menu option etc.  Pacman movement is by keys only at this time, though I may soon add in joystick support as well.  I don't actually own a joystick that works with current Windows systems to test this yet.
+
+~ JOYSTICK ~
+Joystick support has been added, though I feel it is a little flaky (for lack of a better term) due to the Allegro library which I feel has bugs in it's joystick support. But it does work most of the time.  I found it best to use the analog input, though maybe you will have better luck with the digital controller. I designed and tested this using a Logitech F310 joystick (Xbox style).  I also designed this with the Xinput mode, on the F310 there is a switch on the bottom, you should have it in X (Xinput) mode for most modern games anyhow, but if you do not, the buttons will probably not match up to mine.
+Anyhow, use the stick to control direction obviously, you can press to turn ahead of time and the pacman will turn when he reaches a turn, I find this best (same with keyboard).
+Button 1 (Green A): Acts like the ENTER key, selects menu options and fires the GUN if you get it.
+Button 2 (Red B): Acts like the ESC key, exits menus, game etc.
+Button 3 (Blue X): Acts like the CTRL key, it uses energy (orange bar) to speed up pacman's movement.
+Button 7 (Start): Only works when at the main menu, has the same effect as selecting the PLAY button.
+
+The Hall of Fame supports Unicode for names so accented characters should work okay.
+
+In this version you gain energy as you collect pills, note, unlike the previous version of this game, normal pills can be large or small, so not all large pills are nessecarily powerpills, a few tricky levels have them as normal pills, this is not a bug.  On the few levels I did this on, I left clues as to which were the powerpills, you just have to figure that out.  Pills and food also give you energy (shown by an orange bar at the bottom of the screen) which you can use by pressing the CTRL key which will make you move faster.  As you move faster you expend energy, when you run out of energy, you no longer move faster.
+
+All tools from the old game are in this version as well as a few new tools like Glue and 
+Bonus levels and a couple others (see in game HELP menu).
+
+Ghosts now each have their own spawn points which only they can respawn on.  Ghosts cannot spawn on another ghosts spawn point.  You can also travel over a ghosts spawn without problems... unless of course, a ghost that you ate happens to respawn at the same time you travel over his home, then you could die, so be cautious when travelling over them, you might want to use some energy (CTRL) and speed over them as fast as you can to be safe.
+
+The spawn point for the pickup can also now be anywhere on the level, but once you know where it spawns, it will always spawn in the same location.  *NEW* There is now a spawn point indicator on the ground.  Tools have a totally different sound than food pickups now.
+
+A note about bonus levels, there is only one hidden power pill on bonus levels, the rest are normal pills no matter what size they are.  If you clear all the pills on a bonus level without dying you get an extra life and bonus points.  If you die on a bonus level you do not lose a life, you will just continue on to the next level you would have normally went to.  Also, when you grab the BONUS, you get the remaining points for any pills left on the level as if you cleared it.
+
+There is a save game feature in this version, press ESC while playing a level and select SAVE and it will save your game (not your score though).  You can only save one game at a time, any new game saves will overwrite the existing saved game (I may change this in the future, if I feel up to the task, donations help motivate me... hey, I've been at this game for over 20 years now).  You can then reload your current game from the main menu and the level will be the same as it is now, with missing pills etc.  The score isn't preserved in order to keep people from using this to get too high of a score by constantly saving and reloading, but it will allow you to see all the levels the game has.
+
+*NEW*Teleports: There are teleports in the game now as well. They will teleport you from one to the other, but they will not teleport ghosts (no matter to lock on to for ghosts?).  There are only ever two linked teleports on any level (if any).
+
+*** OPTIONS ***
+
+The OPTIONS menu has been completed, but you can also adjust the games setting by loading up the "Deluxe Pacman 2.ini" file into a text editor like Notepad.  The INI file will not exist until you run the game the first time, it will then be created with default settings and you can edit it.  It's best to use the options menu to adjust these settings, they will all be saved when you click the SAVE button.  Certain options like vsync and such are only available by manually editing the ini file, mainly because there is no real need for the average player to adjust them, but they are available via the ini file if needed for some reason.
+
+You can select Windowed mode, Fullscreen Window which is the same as a window the size of your monitor without a border, it appears like a fullscreen mode, but it is not.  This is much faster for alt+tabbing out of the game to switch to another program like your browser or whatever.  And there is the traditional full screen mode, which can actually be faster for the game itself, while being slower to switch between programs.  The game will normally select a fullscreen mode which matches your desktop resolution and then adjust the size and other parameters so the game appears properly, so there should be no stretching effect (tested this on my 1920x1080 monitor and my wife's 1280x1024 with no problems).
+
+In the ini file the setting is...
+fullscreen=1            ...set this to 0 (zero) for window mode, 1 for normal fullscreen and 2 for a fullscreen window (this looks like a fullscreen, but is actually a borderless window the size of your screen, it can be easier to switch from the game to your desktop and could even be faster on some systems than regular fullscreen).
+
+From the options menu you can toggle Shadows on and off.  With it turned off it may speed the game up a little, but the game will not draw shadows and it will look more flat (like the original game, which you may prefer anyhow)
+
+In the ini file you can adjust this with...
+shadows=1               ...toggles shadows on (1) and off (0).
+
+Monitor frequencey is not available via the options menu and normally doesn't need to be touched, but it is availabe if needed.  The game will use the default frequency normally.  It can be set in the ini file with the following code.  Set it to zero for the game to automatically select your monitor's default frequency (recommended).
+frequency=0             ...sets your monitor frequency to use, normally only for fullscreen mode, leave this set at zero for the default system setting (recommended).
+
+Just as it says, in the options it turns sound on or off and is set in the ini with the following...
+sound_on=1              ...toggles sound on (1) and off (0).
+
+The same as sound, music is toggled on and off from the options menu or the ini with the following...
+music_on=1              ...toggles music on (1) and off (0).
+
+The sound and music volumes are set with a number from 0 to 10, zero being almost off, 10 being maximum volume.  This must be an integer, the game will convert it to a floating point.  You don't need to understand any of this and it can be set in the options easily or the ini with the following code...
+
+sound_volume=7          ...sets the sound volume. 0 to 10.
+music_volume=5          ...sets the music volume. 0 to 10.
+
+This is adjustable in the options menu with an on/off button, or the ini..
+opengl=0                ...normally the game uses DirectX, set this to 1 to use OpenGL instead.
+
+There are three buttons in the options menu for this, or one setting in  the ini...
+difficulty=1            ...The difficulty.
+                        0 = Easy (random ghost movement)
+                        1 = Medium (semi-random movement)
+                        2 = Hard (Intelligent AI, each ghost has a personality)
+
+If you turn this off in the options menu or ini, user created levels (created with the level editor) will not be loaded, but the default level, if any, will be.  When it is on, it will load user levels instead of default build in levels.  So when you wish to play through the levels that the game comes with, turn this off (or number your levels higher than the built in levels).
+user_levels=1           ...Whether the game will load user made levels by default first or not.
+                        1 = load user made levels.
+                        0 = ignore user levels and only load default game levels.
+                        
+There is also a suicide speed option, enable it to double the speed of the game.
+The ini entry is...
+suicide=1               1 = double speed in game
+                        0 = normal game speed
+                        
+To enable cheat mode (see cheat key text for keys you can use in game with this), you need to manually edit the ini file with the following value...
+testbed=1               1 = enable cheat mode and FPS counter
+                        0 = normal gameplay and FPS off
+
+Be careful when editing the ini file and only use the values mentioned.  Using other values will have unpredictable results, experiment with these at your own peril. ;)   If you make a mistake with this and have trouble correcting it, just delete this file and the game will create a new one automatically with default values.  The best bet is to only use the options menu for these unless you know what you are doing.
+
+
+*** LEVEL EDITOR ***
+
+There is also a level editor with this game, play around with it.  ALL levels MUST be "VALIDATED" or the game will not load them.  This ensures that levels meet the minimum requirements for a level to be playable without errors.  It's a new feature which checks for lots of mistakes you can make and will show you where you went wrong if you do.  This editor is FAR easier than the old one, just "draw" with it.  You select a line set, then just click your left mouse button and drag it around the screen to "draw" the lines.  You can set up different mirror modes to make the process even faster with SymX (mirrors LEFT<->RIGHT) and SymY (Mirrors TOP<->BOTTOM), play around with them to see how that works, try enabling both of them, you can easily create some great looking levels in no time with this.  Pill Fill will ONLY fill up spaces where Pacman can move on with pills.  Any isolated empty spaces where pacman cannot move onto, will not be filled in with a pill.  Also, any pills you mark as POWERPILLS will not be replaced with Pill Fill.  Ghost spawns, pickup spawns, player spawns and the teleports will not be effected by pillfill.  Also you cannot draw a line over these spawns, if you wish to remove one, you need to create a new one somewhere else, moving it, or right click on it to erase it before you can draw a line over it.
+
+About PowerPills; in this game you can make ANY PILL a power pill, large or small.  You just put the pills on the map, then click powerpill and select the pills you wish to be powerpills.  This can make for some interesting levels where the player has to guess which ones are the powerpills.  It is important to note that it is entirely possible to create a level that has no powerpills at all, so make certain you have them marked as powerpills, simply placing large pills on the map no longer makes them a powerpill, all pills are considered normal pills until you mark them, and a level CAN be validated without having any marked at all.
+
+Turning your mouse wheel will change the background (something new to this version, different backgrounds).  Just keep turning your mouse wheel to keep changing the background, the editor will show what the background looks like behind the pills and lines to help you make a selection.
+
+if you change the line type after you create a level, it will be like the old game editor and change the lines on your level as well without erasing your level.
+
+if you select NEW level after you have done some editing, it will clear your current level, but keep your current line type and background settings.
+
+Each Ghost can have it's own home on the map, and they will only return to their own home.  This makes for a larger variety of levels you can make.  The levels are also slightly larger than the last game so old levels from that game will not work with this game.
+
+Press the cursor keys/keypad arrow keys (2, 4, 6 & 8) or the WSAD keys to shift the level around.  For example, if you press UP/Keypad 8/W, the entire level will shift up one cell.  All spawns will move with the level if they are set.  You will need to revalidate the map if you move it, and some things may not work  the way you planned, like wrap errors and such.  Some uses for this would be to shift the map one cell so you can connect the edge pieces to the opposite side (or appear that way anyhow) then shift it back.
+
+When you save levels they MUST be saved as "level###.dp2", the ### being the level number you wish it to be, so if it is level 1, than the filename will be "level001.dp2".  If it was level 123, it should be named "level123.dp2".  And of course, you have to make sure you have all the levels available up to that number or you cannot reach it and there will be unpredictable results running the game.  So, if you have level050.dp2 (level 50), than you HAVE to have levels 1 to 49 as well before that; or you can replace a level the game already has, so if the game has 20 levels, you can make 1 to 20 without making any before that and it will simply replace the game level with the one you created.
+You also now have to place all your level###.dp2 files into a Custom folder that you should see in the game folder now.  The level editor will now load and save from  there by default, so if you have any older levels you want to use, move them into the Custom folder.
+
+Player spawn, ghost spawns, pickup spawn and the teleports can all now be placed on the map's border.  The pillfill function will also fill the border area with pills if it can.  I don't think spawns look good on the border, but I feel this is a purely design issue and not a functional issue, so I decided that design should be left up to the designers.  Maybe some of you will make some interesting levels and show me they look good on the border, who knows.
+
+The keys you can use in the editor so far are...
+Cursor Up    / W / Keypad 8 : Move entire map UP one tile.
+Cursor Down  / S / Keypad 2 : Move entire map DOWN one tile.
+Cursor Left  / A / Keypad 4 : Move entire map LEFT one tile.
+Cursor Right / D / Keypad 6 : Move entire map RIGHT one tile.
+ESC   : exits menus and exits editor.  If you have not saved your map yet, it will confirm your exit request.
+G key : Toggles the GRID on and off.
+V key : Validates the level.
+X key : Toggles SymX mode on and off.
+Y key : Toggles SymY mode on and off.
+
+...I'll probably add more keys for the other buttons in time, so check back here later.
+
+Custom Line graphics: You can now have your own customized line graphics.  You need to look at the example line graphic I will include in the main directory of this game "Line Example.png".  They MUST be saved as a normal PNG file with alpha transparency.  And the lines must be in the order you see in the graphic.  It is recomended that you don't have the lines thicker than 16 pixels.  Each tile is 32x32 pixels, the lines are centered and usually 16 pixels thick (though some are smaller, some a little larger), usually with 8 pixels on either size that are transparent (so the background can show through).  You can make them any size you wish, provided each tile is 32x32 pixels and they are in the exact order you see them in.  You then save them as "Line##.png" where ## is a two digit number from 00 to 99 (no larger, and it must contain two digits).  The default line sets in game are numbered from 00 to 19, so if you number yours one of those numbers, you will replace the one that exists.  You should probably number yours from 20 to 99, in order.  You can't just have one set named Line99.png or it won't load, the game loads the default lines from 00 to 19, then looks for 20, 21, 22...99.  If it searches for 20 and doesn't find it (or whatever the next number is, at the moment, the highest ingame number is 19), it will not look for anymore, so having higher numbers means it won't be detected.  So use this with caution.  Also, all Line##.png files will be searched for in teh "Custom" folder, as will all custom levels from now on, so if you have any from older versions of the game, move them into the new Custom folder or they will not be seen.
+
+Custom Level Intro images: You can now have your own image with a message or something else on it that appears before your level.  Just name it "level###.png", where ### is the level number, level 10 would be "level010.png", just like the level filename in other words, only with the PNG extension.  It must be a PNG image.  The image size can't be larger than 800x600, but it CAN be smaller.  Smaller images will be centered on the screen.  All level images will display for 5 seconds or until the player presses a key then continue on to the level.
+
+TELEPORTS: You can place only two teleports on a map.  They are not required for map validation, but if you have them, you have to have two or you will generate a validation error.  Try them out, they're a fun feature and ghosts can't use them.
+
+*** Troubleshooting ***
+
+There shouldn't be too many bugs that I can think of, I tried to limit any features that are unfinished to avoid this.  If the highscore files become corrupt the game can crash, if this happens, simply delete "Deluxe Pacman 2.hi0", "Deluxe Pacman 2.hi1" and "Deluxe Pacman 2.hi2" files.
+
+For anything else, you can also delete the "Deluxe Pacman 2.sav" and "Deluxe Pacman 2.ini" files safely and the game will recreate the necessary files if you have problems with them.
+
+
+
+*** Misc Comments & Rants ***
+
+I hope you enjoy the game thus far.  Sorry it took so long but my enthusiasm is not what it used to be for programming.  The original Deluxe Pacman PC was totally free and in the 20+ years (yeah, it has been that long) I have worked on it, I have not received that much in donations, even though the game has been downloaded over 2 million times now on one website alone (which I appreciate, I often got donations right around when we were low on cash and food).  Don't get me wrong, I didn't do this for money, I originally done it just for my wife and that was all, but I enjoyed working on it and maintaining it so I kept at it, but as you can imagine, it gets weary constantly maintaining it.  Anyhow, I didn't want to leave this in limbo for who knows how long, so I finally decided to clean it up as best I can and release it.  I will continue to work on this from time to time as I feel motivated, usually when I get a donation I honestly will boot it up and do more work on it, as I feel that is at least fair.  So more donations, more work.  It's really that simple.  If everyone that downloaded this donated $1, I would be at this full time, guaranteed.  With probably something newer and better in the works.  It may sound... strange, but when your interest in something runs out, what else will motivate you to work on it?
+
+To those that say this game sucks and that the original Amiga version is better, I agree, I loved that game so did my wife, that is why I originally created this (with Edgar's permission I might add).  My wife loved the game (as did I) and there was no such thing as an Amiga Emulator at the time, Commodore had just gone bankrupt and so I switched to the PC (which I hated having to do) and created the best version I could given my limited skills at the time... FOR MY WIFE... I never intended this to ever go public so... I don't know what some people think I did this for, certainly not to get rich and famous.  Bring back the original Amiga and I'll personally delete all copies of the PC Deluxe Pacman and happily jump back on the Amiga bandwagon, it's still my favourite computer of all time, period.  Also, letting me know why it sucks and how I could improve it helps me make it... "suck less".
+
+Someone commented that Deluxe Pacman for the PC I made was small compared to the Amiga version, well, lets see, the Amiga version was 640x400, my original version, v1.98, the last one I made, was 640x480 and this one is 800x600 so... no, the Amiga version is not larger, play the game in full screen mode like on the Amiga.  Actually, the original Amiga version as well as the AGA version had fewer colours than my game has, mine is 32bit alpha blended and even 3D accelerated.  It also always comes with a level editor.  Something the Amiga version, and even Edgar's newest PC versions do not have.  Also, none of his versions are free (well, the limited demo versions are).  Granted he does an amazing job on them and I love all his versions.  They were well worth the money, he earned it (R.I.P) Maybe I should polish this up and make it commercial only?
+
+Anyhow... have fun.  If you don't like this... delete it.  I hope someone notices the effort I put into TRYING to make this look somewhat polished.  I don't claim it is the best or better than anything else except I think this version is better than my own version 1.  It's the best I could come up with, take it or leave it.
+
+I currently have a Deluxe Pacman Facebook page: facebook.com/Deluxe.Pacman
+You can reach me there faster than email or any other means, so I won't post email addresses (does anyone even use email anymore?!).  I also post updates there first.  I'm a crackbook... erm... facebook addict as well, so I am on it daily. :)
+
+There's also a website button in the game which will open my default website (*Update*: The Website button now takes you to my Facebook page already mentioned as my ISP took my page down and I can't afford to pay for a normal website yet) to get the latest version at.  But even that is not guaranteed to always work as my ISP may change (no plans at this time).  But I will always update the Facebook page if something does change, so you may wish to go "LIKE" it.  Up to you, I get nothing if you like it and I have no ego, but it does show me who is interested, fewer likes, not so much interest, than I know to move on to something else. ;)
+
+If you do like the game; please consider supporting it.  Even $1 would be fine, if everyone that downloaded this donated $1, I would be very happy.  $1 is better than $0.  I do this via paypal so I can't touch donations unless ther is more than $10 in it, and paypal takes their cut.  Just saying.  For donations, go to: http://www.PayPal.me/NeilRoy
+If I get enough donations, I will go back to work on a newer version or other games, make a suggestion for something you want when you donate, I pay close attention to what donators want. ;)
+
+Have a good one;
+      Neil Roy

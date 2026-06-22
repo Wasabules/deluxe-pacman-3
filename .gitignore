@@ -1,0 +1,31 @@
+# === Portage web (TypeScript / Vite) ===
+web/node_modules/
+web/dist/
+web/.vite/
+web/src-tauri/target/
+web/src-tauri/gen/
+
+# === Build C (Code::Blocks / MinGW-W64) ===
+obj/
+*.o
+*.exe
+
+# === Runtime du jeu C (générés au lancement) ===
+bin/*.hi0
+bin/*.hi1
+bin/*.hi2
+bin/Deluxe Pacman 2.ini
+bin/Screenshots/
+bin/Custom/
+
+# === Outils / OS / temporaires ===
+.claude/
+node_modules/
+*.log
+*.local
+.DS_Store
+Thumbs.db
+
+# === Captures de dev (Playwright) ===
+web/*.png
+web/shot*.png

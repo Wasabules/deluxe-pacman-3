@@ -1,0 +1,3 @@
+PRIVATE NOTES:
+
+Set "pakman=1" in "Deluxe Pacman 2.ini" settings file in order to disable pak filesize hack detection (so it can be altered).
