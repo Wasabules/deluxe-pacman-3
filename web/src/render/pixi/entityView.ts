@@ -53,6 +53,8 @@ export class EntityView {
   private readonly spawn: Sprite;
   private readonly bullet: Sprite;
   private readonly playerMark = new Graphics(); // repère « c'est toi » (mode Reverse)
+  private readonly reverseToolG = new Graphics(); // outil Fantôme sur la case d'apparition
+  private readonly radarG = new Graphics(); // radar vers le Pacman (outil Radar)
   private readonly bombG = new Graphics(); // bombe posée (outil BOMB)
   private readonly pillLayer = new Container();
   private readonly shadows = new Graphics(); // ombres au sol des entités
@@ -101,6 +103,13 @@ export class EntityView {
     this.playerMark.moveTo(-10, -7).lineTo(0, 5).lineTo(10, -7).stroke({ width: 3, color: 0x39ff14 });
     this.playerMark.visible = false;
     this.world.addChild(this.playerMark);
+
+    // Outils Fantôme : icône au sol + radar (mode Reverse).
+    this.reverseToolG.visible = false;
+    this.world.addChild(this.reverseToolG);
+    this.radarG.visible = false;
+    this.radarG.zIndex = 99999; // toujours au-dessus
+    this.world.addChild(this.radarG);
   }
 
   /** (Re)crée la grille de sprites de pills pour un niveau. */
@@ -157,6 +166,52 @@ export class EntityView {
     this.updateBullet(play, bp);
     this.updateBomb(play);
     this.updatePlayerMark(play, gp);
+    this.updateReverseTool(play);
+    this.updateRadar(play, pp);
+  }
+
+  /** Icône de l'outil Fantôme posé sur la case d'apparition (mode Reverse). */
+  private updateReverseTool(play: PlayState): void {
+    const g = this.reverseToolG;
+    if (!play.reverse || play.reverseTool === 0) {
+      g.visible = false;
+      return;
+    }
+    g.visible = true;
+    g.clear();
+    g.position.set(play.level.pickup.x * TILE_SIZE + 16, play.level.pickup.y * TILE_SIZE + 16);
+    g.zIndex = depthOfCell(play.level.pickup.y) + 4;
+    const COL = [0, 0x39ff14, 0x00f0ff, 0xffe600, 0xff2bd6];
+    const col = COL[play.reverseTool]!;
+    g.circle(0, 0, 13).fill({ color: 0x0a0a1e, alpha: 0.85 }).stroke({ width: 2, color: col });
+    switch (play.reverseTool) {
+      case 1: // Vitesse : double chevron
+        g.moveTo(-6, -5).lineTo(0, 0).lineTo(-6, 5).moveTo(1, -5).lineTo(7, 0).lineTo(1, 5).stroke({ width: 2, color: col });
+        break;
+      case 2: // Gel : flocon
+        g.moveTo(0, -7).lineTo(0, 7).moveTo(-7, 0).lineTo(7, 0).moveTo(-5, -5).lineTo(5, 5).moveTo(5, -5).lineTo(-5, 5).stroke({ width: 1.5, color: col });
+        break;
+      case 3: // Radar : cibles concentriques
+        g.circle(0, 0, 3).circle(0, 0, 7).stroke({ width: 1.5, color: col });
+        break;
+      case 4: // Téléport : spirale
+        g.arc(0, 0, 7, 0, Math.PI * 1.5).arc(0, 0, 3.5, Math.PI * 1.5, Math.PI * 3).stroke({ width: 2, color: col });
+        break;
+    }
+  }
+
+  /** Trait du radar vers le Pacman (outil Radar, mode Reverse). */
+  private updateRadar(play: PlayState, pp: XY): void {
+    const g = this.radarG;
+    if (!play.reverse || play.radarTimer <= 0) {
+      g.visible = false;
+      return;
+    }
+    g.visible = true;
+    g.clear();
+    const red = play.ghosts[0]!;
+    g.moveTo(red.x + 16, red.y + 16).lineTo(pp.x, pp.y).stroke({ width: 2, color: 0xffe600, alpha: 0.45 });
+    g.circle(pp.x, pp.y, 22).stroke({ width: 2, color: 0xffe600, alpha: 0.7 });
   }
 
   /** Repère flottant au-dessus du fantôme contrôlé par le joueur (mode Reverse). */
@@ -199,6 +254,8 @@ export class EntityView {
     this.bombG.visible = false;
     this.spawn.visible = false;
     this.playerMark.visible = false;
+    this.reverseToolG.visible = false;
+    this.radarG.visible = false;
     for (const gs of this.ghosts) gs.container.visible = false;
     this.shadows.clear();
   }

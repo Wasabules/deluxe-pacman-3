@@ -18,8 +18,11 @@ export function traversable(level: Level, x: number, y: number): boolean {
   return c.tile === 0 || c.isPill;
 }
 
-/** Construit la grille de distances vers `dest` (flood-fill BFS avec wrap). */
-export function getPath(level: Level, dest: MapCoord): PathGrid {
+/** Construit la grille de distances vers `dest` (flood-fill BFS avec wrap).
+ *  `dest` est borné à la grille : une cellule hors limites (Pacman en plein wrap
+ *  de tunnel, en mode Reverse) ferait sinon planter l'accès `grid[y][x]`. */
+export function getPath(level: Level, destIn: MapCoord): PathGrid {
+  const dest = clampToGrid(destIn);
   const grid: PathGrid = [];
   for (let y = 0; y < MAPY; y++) {
     const row: number[] = [];

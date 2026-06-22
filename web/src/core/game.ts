@@ -32,6 +32,17 @@ const REVERSE_HUNT = 6; // distance en deçà de laquelle le Pacman chasse un fa
 const REVERSE_CAPTURE_POINTS = 5000; // points par capture du Pacman
 // « eyes » fantôme (0=bas 1=gauche 2=droite 3=haut) → direction Pacman.
 const EYES_TO_DIR: Dir[] = [1, 2, 3, 0];
+
+// Outils Fantôme (mode Reverse) : id 1..4 sur la case d'apparition.
+export const REV_SPEED = 1; // boost de vitesse du joueur
+export const REV_FREEZE = 2; // gèle le Pacman
+export const REV_RADAR = 3; // trace le chemin vers le Pacman
+export const REV_TELEPORT = 4; // téléporte le joueur près du Pacman
+const REVERSE_TOOL_WAIT = 6 * 60; // délai avant l'apparition d'un outil
+const REVERSE_TOOL_SHOW = 9 * 60; // durée d'affichage avant disparition
+const REVERSE_BOOST_FRAMES = 5 * 60; // durée du boost de vitesse
+const REVERSE_FREEZE_FRAMES = 3 * 60; // durée du gel du Pacman
+const REVERSE_RADAR_FRAMES = 6 * 60; // durée d'affichage du radar
 const DEFAULT_DIFFICULTY = 2; // 0 facile · 1 moyen · 2 difficile (IA complète)
 const DEATH_PAUSE = 90; // frames de pause après une mort
 const BULLET_SPEED = 4 * MOVE_PIXELS; // 16 px/frame
@@ -129,6 +140,11 @@ export interface PlayState {
   pacmanFrozen: number; // frames de gel du Pacman (outil Gel — Reverse)
   capturedPacman: boolean; // fx : le Pacman vient d'être capturé ce frame
   playerEaten: boolean; // fx : le fantôme-joueur vient d'être mangé ce frame
+  reverseTool: number; // outil Fantôme posé sur la case d'apparition (0=aucun, 1..4)
+  reverseToolTimer: number; // horloge d'apparition/disparition de l'outil Fantôme
+  ghostBoost: number; // frames de boost de vitesse du joueur (outil Vitesse)
+  radarTimer: number; // frames d'affichage du radar (outil Radar)
+  gotReverseTool: number; // fx : outil Fantôme ramassé ce frame (0=aucun)
 }
 
 function makePacman(level: Level): Pacman {
@@ -247,6 +263,11 @@ export function createPlayState(level: Level, opts: PlayStateOptions = {}): Play
     pacmanFrozen: 0,
     capturedPacman: false,
     playerEaten: false,
+    reverseTool: 0,
+    reverseToolTimer: 0,
+    ghostBoost: 0,
+    radarTimer: 0,
+    gotReverseTool: 0,
   };
 }
 
@@ -830,6 +851,7 @@ export function stepGame(s: PlayState): void {
   s.spawnAppeared = 'none';
   s.capturedPacman = false;
   s.playerEaten = false;
+  s.gotReverseTool = 0;
   s.scorePops.length = 0; // pops du frame précédent consommés
 
   if (s.gameOver || s.levelComplete || s.awaitingRespawn || s.reverseLost) return;
@@ -1000,9 +1022,86 @@ function handleCollisionReverse(s: PlayState, g: Ghost): void {
   }
 }
 
+// --- Outils Fantôme (mode Reverse) ---
+
+/** Fait apparaître/disparaître cycliquement un outil Fantôme sur la case d'apparition. */
+function updateReverseTool(s: PlayState): void {
+  s.reverseToolTimer++;
+  if (s.reverseTool === 0) {
+    if (s.reverseToolTimer >= REVERSE_TOOL_WAIT) {
+      s.reverseTool = 1 + Math.floor(s.rng() * 4); // 1..4
+      s.reverseToolTimer = 0;
+    }
+  } else if (s.reverseToolTimer >= REVERSE_TOOL_SHOW) {
+    s.reverseTool = 0;
+    s.reverseToolTimer = 0;
+  }
+}
+
+/** Téléporte le fantôme-joueur à quelques cases du Pacman (outil Téléport). */
+function teleportPlayerNearPacman(s: PlayState): void {
+  const red = s.ghosts[0]!;
+  const p = s.pacman.map;
+  const offsets = [
+    [0, 2], [2, 0], [0, -2], [-2, 0], [2, 2], [-2, -2], [2, -2], [-2, 2], [0, 3], [3, 0], [0, -3], [-3, 0],
+  ];
+  for (const [dx, dy] of offsets) {
+    const tx = p.x + dx!;
+    const ty = p.y + dy!;
+    if (tx > 0 && tx < MAPX - 1 && ty > 0 && ty < MAPY - 1) {
+      const c = s.level.map[ty]![tx]!;
+      if (!c.tile || c.isPill) {
+        red.map = { x: tx, y: ty };
+        red.x = red.ox = tx * TILE_SIZE;
+        red.y = red.oy = ty * TILE_SIZE;
+        red.dx = 0;
+        red.dy = 0;
+        red.eyes = 4;
+        s.warped = true;
+        return;
+      }
+    }
+  }
+}
+
+/** Active l'effet d'un outil Fantôme ramassé par le joueur. */
+function applyReverseTool(s: PlayState, tool: number): void {
+  s.gotReverseTool = tool;
+  switch (tool) {
+    case REV_SPEED:
+      s.ghostBoost = REVERSE_BOOST_FRAMES;
+      break;
+    case REV_FREEZE:
+      s.pacmanFrozen = REVERSE_FREEZE_FRAMES;
+      break;
+    case REV_RADAR:
+      s.radarTimer = REVERSE_RADAR_FRAMES;
+      break;
+    case REV_TELEPORT:
+      teleportPlayerNearPacman(s);
+      break;
+  }
+}
+
+/** Ramasse l'outil Fantôme si le joueur est sur la case d'apparition. */
+function checkReversePickup(s: PlayState): void {
+  const red = s.ghosts[0]!;
+  if (s.reverseTool > 0 && red.map.x === s.level.pickup.x && red.map.y === s.level.pickup.y) {
+    applyReverseTool(s, s.reverseTool);
+    s.reverseTool = 0;
+    s.reverseToolTimer = 0;
+  }
+}
+
 /** Avance les entités du mode Reverse (appelée par stepGame). */
 function stepReverse(s: PlayState): void {
   const pac = s.pacman;
+  const red = s.ghosts[0]!;
+
+  // Outils Fantôme : apparition cyclique + décompte des effets temporisés.
+  updateReverseTool(s);
+  if (s.ghostBoost > 0) s.ghostBoost--;
+  if (s.radarTimer > 0) s.radarTimer--;
 
   // IA du Pacman (immobile s'il est gelé par l'outil Gel).
   if (s.pacmanFrozen > 0) {
@@ -1026,18 +1125,29 @@ function stepReverse(s: PlayState): void {
   const ctx: GhostContext = {
     level: s.level,
     pacman: pac,
-    red: s.ghosts[0]!,
+    red,
     difficulty: s.difficulty,
     rng: s.rng,
     panic: false,
   };
   while (s.ghostMoveAcc >= 1) {
     s.ghostMoveAcc -= 1;
-    for (let i = 0; i < s.ghosts.length; i++) {
+    // Alliés (IA).
+    for (let i = 1; i < s.ghosts.length; i++) {
       const g = s.ghosts[i]!;
-      stepGhost(g, ctx, i === 0 ? s.desiredDir : -1);
+      stepGhost(g, ctx);
       if (collides(pac, g)) {
         handleCollisionReverse(s, g);
+        if (s.levelComplete || s.reverseLost) return;
+      }
+    }
+    // Joueur : un pas, ou deux sous l'effet Vitesse.
+    const steps = s.ghostBoost > 0 ? 2 : 1;
+    for (let k = 0; k < steps; k++) {
+      stepGhost(red, ctx, s.desiredDir);
+      checkReversePickup(s);
+      if (collides(pac, red)) {
+        handleCollisionReverse(s, red);
         if (s.levelComplete || s.reverseLost) return;
       }
     }

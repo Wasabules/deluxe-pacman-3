@@ -94,10 +94,71 @@ describe('mode Reverse — le Pacman IA mange les pills', () => {
     level.pills = 1;
     level.map[8]![6] = pill(); // juste à droite du Pacman (5,8)
     const s = createPlayState(level, { reverse: true });
+    // Fantômes au loin : pas de menace → le Pacman va manger (déterministe).
+    for (const g of s.ghosts) {
+      g.map = { x: 1, y: 1 };
+      g.x = TILE_SIZE;
+      g.y = TILE_SIZE;
+    }
     let guard = 0;
     while (!s.reverseLost && !s.levelComplete && guard++ < 400) stepGame(s);
     expect(s.reverseLost).toBe(true);
     expect(s.levelComplete).toBe(false);
+  });
+});
+
+describe('mode Reverse — robustesse aux tunnels', () => {
+  it('ne plante pas quand le Pacman a une position de grille hors limites (wrap)', () => {
+    const level = openLevel();
+    level.pills = 1;
+    level.map[8]![3] = pill();
+    const s = createPlayState(level, { reverse: true });
+    for (const g of s.ghosts) {
+      g.map = { x: 1, y: 1 }; // fantômes loin → Pacman en mode « manger » (utilise getPath)
+      g.x = 32;
+      g.y = 32;
+    }
+    s.pacman.map = { x: MAPX, y: MAPY }; // hors grille, comme juste après un wrap de tunnel
+    expect(() => stepGame(s)).not.toThrow();
+  });
+});
+
+describe('mode Reverse — outils Fantôme', () => {
+  // Place l'outil sur la case d'apparition et fait approcher le joueur par la gauche.
+  function approachTool(toolId: number) {
+    const level = openLevel();
+    level.pickup = { x: 15, y: 8 };
+    const s = createPlayState(level, { reverse: true });
+    s.reverseTool = toolId;
+    s.reverseToolTimer = 0;
+    s.ghosts[0]!.map = { x: 13, y: 8 };
+    s.ghosts[0]!.x = 13 * TILE_SIZE;
+    s.ghosts[0]!.y = 8 * TILE_SIZE;
+    for (let i = 1; i < 4; i++) {
+      s.ghosts[i]!.map = { x: 1, y: 1 }; // alliés à l'écart
+      s.ghosts[i]!.x = TILE_SIZE;
+      s.ghosts[i]!.y = TILE_SIZE;
+    }
+    s.desiredDir = 3; // droite → le joueur avance vers la case d'apparition
+    let guard = 0;
+    while (s.reverseTool !== 0 && guard++ < 120) stepGame(s);
+    return s;
+  }
+
+  it('Vitesse (1) déclenche un boost de vitesse du joueur', () => {
+    expect(approachTool(1).ghostBoost).toBeGreaterThan(0);
+  });
+  it('Gel (2) immobilise le Pacman', () => {
+    expect(approachTool(2).pacmanFrozen).toBeGreaterThan(0);
+  });
+  it('Radar (3) active le radar', () => {
+    expect(approachTool(3).radarTimer).toBeGreaterThan(0);
+  });
+  it('Téléport (4) rapproche le joueur du Pacman', () => {
+    const s = approachTool(4);
+    const red = s.ghosts[0]!;
+    const p = s.pacman.map;
+    expect(Math.abs(red.map.x - p.x) + Math.abs(red.map.y - p.y)).toBeLessThanOrEqual(5);
   });
 });
 
@@ -108,6 +169,13 @@ describe('mode Reverse — super-pastille', () => {
     level.map[8]![6] = pill(true); // power-pill proche du Pacman
     level.map[8]![2] = pill(); // pill normale plus loin
     const s = createPlayState(level, { reverse: true });
+    // Fantômes au loin : aucun ne mange le Pacman au moment du « frighten »
+    // (sinon il redeviendrait non-scared le même frame). Rend le test déterministe.
+    for (const g of s.ghosts) {
+      g.map = { x: 1, y: 1 };
+      g.x = 32;
+      g.y = 32;
+    }
     let guard = 0;
     while (!s.atePowerpill && guard++ < 400) stepGame(s);
     expect(s.atePowerpill).toBe(true);
