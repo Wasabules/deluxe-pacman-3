@@ -13,7 +13,7 @@ import type { Level, MapCoord } from './types';
 
 export type PathGrid = number[][]; // [MAPY][MAPX]
 
-function traversable(level: Level, x: number, y: number): boolean {
+export function traversable(level: Level, x: number, y: number): boolean {
   const c = level.map[y][x]!;
   return c.tile === 0 || c.isPill;
 }

@@ -52,6 +52,7 @@ export class EntityView {
   private readonly ghosts: GhostSprites[] = [];
   private readonly spawn: Sprite;
   private readonly bullet: Sprite;
+  private readonly playerMark = new Graphics(); // repère « c'est toi » (mode Reverse)
   private readonly bombG = new Graphics(); // bombe posée (outil BOMB)
   private readonly pillLayer = new Container();
   private readonly shadows = new Graphics(); // ombres au sol des entités
@@ -95,6 +96,11 @@ export class EntityView {
 
     this.bombG.visible = false;
     this.world.addChild(this.bombG);
+
+    // Repère du fantôme-joueur (mode Reverse) : chevron néon pointant vers lui.
+    this.playerMark.moveTo(-10, -7).lineTo(0, 5).lineTo(10, -7).stroke({ width: 3, color: 0x39ff14 });
+    this.playerMark.visible = false;
+    this.world.addChild(this.playerMark);
   }
 
   /** (Re)crée la grille de sprites de pills pour un niveau. */
@@ -150,6 +156,20 @@ export class EntityView {
     this.updatePacman(play, pp);
     this.updateBullet(play, bp);
     this.updateBomb(play);
+    this.updatePlayerMark(play, gp);
+  }
+
+  /** Repère flottant au-dessus du fantôme contrôlé par le joueur (mode Reverse). */
+  private updatePlayerMark(play: PlayState, gp: XY[]): void {
+    const g0 = play.ghosts[0]!;
+    if (!play.reverse || g0.dead) {
+      this.playerMark.visible = false;
+      return;
+    }
+    const p = gp[0]!;
+    this.playerMark.visible = true;
+    this.playerMark.position.set(p.x + 16, p.y - 20);
+    this.playerMark.zIndex = p.y + 60; // toujours au-dessus du fantôme
   }
 
   private updateBomb(play: PlayState): void {
@@ -178,6 +198,7 @@ export class EntityView {
     this.bullet.visible = false;
     this.bombG.visible = false;
     this.spawn.visible = false;
+    this.playerMark.visible = false;
     for (const gs of this.ghosts) gs.container.visible = false;
     this.shadows.clear();
   }
@@ -242,7 +263,9 @@ export class EntityView {
       const ip = gp[i]!;
       gs.container.visible = true;
       gs.container.position.set(ip.x + GHOST_OFFSET, ip.y + GHOST_OFFSET);
-      gs.container.zIndex = ip.y + 26; // profondeur = pieds du fantôme
+      // profondeur = pieds du fantôme ; en Reverse, le fantôme-joueur passe
+      // légèrement au-dessus des alliés empilés au spawn (pour rester visible).
+      gs.container.zIndex = ip.y + 26 + (play.reverse && i === 0 ? 8 : 0);
 
       const blinking = g.scared && g.stime - g.stimer <= g.stime / 3 && Math.floor(g.stimer / 4) % 2 === 1;
       const normal = !g.dead && !g.scared;

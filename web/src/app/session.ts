@@ -32,7 +32,7 @@ const TIMEATTACK_FRAMES = 3 * 60 * 60; // 3 minutes (mode Time Attack)
 const SURVIVAL_SPEED_STEP = 0.1; // accélération des fantômes par vague (Survie)
 
 /** Modes de jeu. */
-export type GameMode = 'classic' | 'timeattack' | 'survival' | 'daily';
+export type GameMode = 'classic' | 'timeattack' | 'survival' | 'daily' | 'reverse';
 
 /** Graine du jour (défi quotidien) : identique pour tous le même jour. */
 function dailySeed(): number {
@@ -246,6 +246,7 @@ export class Session {
           bonusLevel: slot.bonusLevel,
           carry,
           ghostSpeed,
+          reverse: this.mode === 'reverse',
         });
         slot.loaded = true;
         this.beginLevelIntro();
@@ -376,6 +377,11 @@ export class Session {
       return;
     }
     if (play.gameOver) {
+      this.eliminateCurrent();
+      return;
+    }
+    // Mode Reverse : le Pacman a vidé le labyrinthe → défaite (fin de partie).
+    if (play.reverseLost) {
       this.eliminateCurrent();
       return;
     }

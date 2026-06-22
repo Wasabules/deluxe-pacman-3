@@ -3,8 +3,12 @@
 
 import { MAPX, MAPY, MOVE_PIXELS, TILE_SIZE, REDRAW_TIMER } from './constants';
 import type { Level, MapCoord } from './types';
-import type { Ghost, Pacman } from './entities';
-import { dir, type GhostDir } from './pathfinding';
+import type { Dir, Ghost, Pacman } from './entities';
+import { dir, traversable, type GhostDir } from './pathfinding';
+
+// Direction Pacman (0=haut 1=bas 2=gauche 3=droite) → « eyes » fantôme
+// (0=bas 1=gauche 2=droite 3=haut). Sert au mode Reverse (joueur = fantôme rouge).
+const DIR_TO_EYES = [3, 0, 1, 2] as const;
 
 // Durée de frayeur en frames 60 Hz. Le C : stime = REDRAW_TIMER*0.75 = 375
 // incréments, +1 tous les 16 ticks d'une horloge à REDRAW_TIMER (500) Hz, soit
@@ -130,15 +134,33 @@ function decide(g: Ghost, ctx: GhostContext): void {
   }
 }
 
-/** Avance un fantôme d'un pas (équivaut à un tick de ghost[0].timer). */
-export function stepGhost(g: Ghost, ctx: GhostContext): void {
+/** Applique la direction du joueur à un fantôme (mode Reverse). Le virage n'est
+ *  retenu que si la case visée est libre ; sinon le fantôme garde sa direction. */
+function applyPlayerDir(g: Ghost, d: Dir, level: Level): void {
+  const e = DIR_TO_EYES[d];
+  const dx = e === 1 ? -1 : e === 2 ? 1 : 0;
+  const dy = e === 0 ? 1 : e === 3 ? -1 : 0;
+  let tx = g.map.x + dx;
+  let ty = g.map.y + dy;
+  if (tx < 0) tx = MAPX - 1;
+  else if (tx >= MAPX) tx = 0;
+  if (ty < 0) ty = MAPY - 1;
+  else if (ty >= MAPY) ty = 0;
+  if (traversable(level, tx, ty)) g.eyes = e;
+}
+
+/** Avance un fantôme d'un pas (équivaut à un tick de ghost[0].timer).
+ *  `playerDir` (mode Reverse) : si fourni (≠ -1), ce fantôme est piloté par le
+ *  joueur au lieu de l'IA (sauf quand il est mort/gelé : retour au spawn en IA). */
+export function stepGhost(g: Ghost, ctx: GhostContext, playerDir: Dir | -1 = -1): void {
   const { level } = ctx;
   g.ox = g.x;
   g.oy = g.y;
 
   // Décision uniquement quand aligné sur une cellule.
   if (g.x % TILE_SIZE === 0 && g.y % TILE_SIZE === 0 && g.map.x >= 0 && g.map.x < MAPX && g.map.y >= 0 && g.map.y < MAPY) {
-    decide(g, ctx);
+    if (playerDir !== -1 && !g.dead && !g.frozen) applyPlayerDir(g, playerDir, level);
+    else decide(g, ctx);
     eyesToDelta(g);
   }
 

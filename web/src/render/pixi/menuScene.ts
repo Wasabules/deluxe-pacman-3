@@ -185,22 +185,22 @@ export class MenuScene {
     this.mainBox.addChild(this.mainHint);
 
     // --- Sélection du mode de jeu ---
-    this.modesBox.position.set(cx, 196);
+    this.modesBox.position.set(cx, 168);
     this.container.addChild(this.modesBox);
     this.modesHeader = neonText('', 22, NEON.cyan);
     this.modesHeader.anchor.set(0.5);
     this.modesHeader.position.set(0, -8);
     this.modesBox.addChild(this.modesHeader);
-    for (let i = 0; i < 4; i++) {
-      const row = neonText('', 24, NEON.white);
+    for (let i = 0; i < 5; i++) {
+      const row = neonText('', 23, NEON.white);
       row.anchor.set(0.5);
-      row.position.set(0, 28 + i * 38);
+      row.position.set(0, 28 + i * 36);
       this.modesBox.addChild(row);
       this.modeRows.push(row);
     }
     this.modesHint = neonText('', 15, NEON.green);
     this.modesHint.anchor.set(0.5);
-    this.modesHint.position.set(0, 28 + 4 * 38 + 14);
+    this.modesHint.position.set(0, 28 + 5 * 36 + 14);
     this.modesBox.addChild(this.modesHint);
 
     // --- Sélection du nombre de joueurs ---
@@ -292,7 +292,7 @@ export class MenuScene {
     this.playHint.text = tr.playHint;
 
     // Sélection du mode de jeu.
-    const modeLabels = [tr.modeClassic, tr.modeTimeAttack, tr.modeSurvival, tr.modeDaily];
+    const modeLabels = [tr.modeClassic, tr.modeTimeAttack, tr.modeSurvival, tr.modeDaily, tr.modeReverse];
     this.modeRows.forEach((row, i) => {
       const sel = m.mode === 'modes' && m.selIndex === i;
       row.text = `${sel ? '> ' : '  '}${modeLabels[i]}${sel ? ' <' : ''}`;

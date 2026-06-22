@@ -25,6 +25,9 @@ export interface Dict {
   modeTimeAttack: string;
   modeSurvival: string;
   modeDaily: string;
+  modeReverse: string;
+  reverseLives: string; // libellé HUD : vies du Pacman à attraper
+  reversePills: string; // libellé HUD : pastilles restantes (jauge de danger)
   timeLabel: string; // HUD : chrono Time Attack
   numberOfPlayers: string;
   players: (n: number) => string;
@@ -101,6 +104,9 @@ const en: Dict = {
   modeTimeAttack: 'TIME ATTACK',
   modeSurvival: 'SURVIVAL',
   modeDaily: 'DAILY CHALLENGE',
+  modeReverse: 'REVERSE',
+  reverseLives: 'PAC-MAN',
+  reversePills: 'PELLETS',
   timeLabel: 'TIME',
   numberOfPlayers: 'NUMBER OF PLAYERS',
   players: (n) => `${n} PLAYER${n > 1 ? 'S' : ''}`,
@@ -174,6 +180,9 @@ const fr: Dict = {
   modeTimeAttack: 'CONTRE-LA-MONTRE',
   modeSurvival: 'SURVIE',
   modeDaily: 'DÉFI DU JOUR',
+  modeReverse: 'REVERSE',
+  reverseLives: 'PAC-MAN',
+  reversePills: 'PASTILLES',
   timeLabel: 'TEMPS',
   numberOfPlayers: 'NOMBRE DE JOUEURS',
   players: (n) => `${n} JOUEUR${n > 1 ? 'S' : ''}`,

@@ -15,7 +15,7 @@ import type { HudData } from '../render/pixi/sideHud';
 import { comboInfo } from '../core/game';
 import type { PlayState } from '../core/game';
 import type { Level } from '../core/types';
-import { HEIGHT, SCREEN_W, TICK_HZ, MAX_LEVELS, MAX_BONUS } from '../core/constants';
+import { HEIGHT, SCREEN_W, TICK_HZ, MAX_LEVELS, MAX_BONUS, MAX_ENERGY } from '../core/constants';
 import { t, cycleLang } from '../i18n';
 
 function getCanvas(id: string): HTMLCanvasElement {
@@ -150,16 +150,17 @@ async function bootstrap(): Promise<void> {
           menuState.selIndex = 0;
         }
       } else if (menuState.mode === 'modes') {
-        // Choix du mode : 0 = Classique → joueurs, 1 = Time Attack, 2 = Survie, 3 = Défi.
-        if (k === 'arrowup' || k === 'w') menuState.selIndex = (menuState.selIndex + 3) % 4;
-        else if (k === 'arrowdown' || k === 's') menuState.selIndex = (menuState.selIndex + 1) % 4;
+        // Modes : 0 Classique → joueurs, 1 Contre-la-montre, 2 Survie, 3 Défi, 4 Reverse.
+        if (k === 'arrowup' || k === 'w') menuState.selIndex = (menuState.selIndex + 4) % 5;
+        else if (k === 'arrowdown' || k === 's') menuState.selIndex = (menuState.selIndex + 1) % 5;
         else if (k === 'enter' || k === ' ') {
           if (menuState.selIndex === 0) {
             menuState.mode = 'players';
             menuState.selIndex = 0;
           } else if (menuState.selIndex === 1) session.startGame(1, 'timeattack');
           else if (menuState.selIndex === 2) session.startGame(1, 'survival');
-          else session.startGame(1, 'daily');
+          else if (menuState.selIndex === 3) session.startGame(1, 'daily');
+          else session.startGame(1, 'reverse');
         } else if (k === 'escape') {
           menuState.mode = 'main';
           menuState.selIndex = 0;
@@ -375,20 +376,25 @@ async function bootstrap(): Promise<void> {
     const active = play.toolInUse.findIndex((on, i) => on && i > 0);
     const clevel = session.players[session.current]?.clevel ?? 1;
     const ci = comboInfo(play);
+    const reverse = play.reverse;
+    // En Reverse : les « vies » = celles du Pacman à attraper ; la barre d'énergie
+    // = part des pastilles restantes (jauge de danger : vide ⇒ le Pacman a gagné).
+    const pillFrac = play.level.pills > 0 ? play.pillsLeft / play.level.pills : 0;
     return {
       score: play.score,
       levelLabel: play.bonusLevel > 0 ? t().bonus(play.bonusLevel) : t().level(clevel),
       playerLabel: session.players.length > 1 ? t().player(session.current + 1) : '',
-      lives: Math.max(0, play.lives),
-      energy: play.energy,
+      lives: reverse ? play.pacmanLives : Math.max(0, play.lives),
+      energy: reverse ? pillFrac * MAX_ENERGY : play.energy,
       extra: play.extra,
       activeTool: active > 0 ? active : 0,
       toolFrac: play.toolTimer / (12 * 60),
-      combo: play.combo,
+      combo: reverse ? 0 : play.combo, // en Reverse, le combo du Pacman n'est pas pertinent
       comboMult: ci.mult,
       comboProgress: ci.progress,
       timeLeft: session.mode === 'timeattack' ? session.timeLeft : -1,
       compact: touchEnabled,
+      reverse,
     };
   }
 

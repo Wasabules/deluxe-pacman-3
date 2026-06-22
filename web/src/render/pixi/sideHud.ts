@@ -27,6 +27,7 @@ export interface HudData {
   comboProgress: number; // progression (0..1) vers le palier suivant
   timeLeft: number; // frames restantes (Time Attack), -1 si hors mode chronométré
   compact?: boolean; // appareil tactile : HUD épuré (libellés textuels masqués)
+  reverse?: boolean; // mode Reverse : « vies » = Pacman à attraper, énergie = pastilles
 }
 
 function label(text: string, size: number, color: number, weight: TextStyleFontWeight = 'bold'): Text {
@@ -136,8 +137,8 @@ export class SideHud {
     // Libellés traduisibles (réassignés via t() : réactif au changement de langue).
     const tr = t();
     this.scoreLabel.text = tr.score;
-    this.livesLabel.text = tr.lives;
-    this.energyLabel.text = tr.energy;
+    this.livesLabel.text = d.reverse ? tr.reverseLives : tr.lives;
+    this.energyLabel.text = d.reverse ? tr.reversePills : tr.energy;
     this.toolLabel.text = tr.tool;
 
     // HUD épuré sur mobile : on masque les petits libellés textuels (les valeurs

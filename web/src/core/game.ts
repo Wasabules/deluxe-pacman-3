@@ -2,9 +2,10 @@
 // Transposition fidèle du déplacement de Pacman piloté par pacman.timer (dp2_main.c).
 
 import { MAPX, MAPY, MOVE_PIXELS, MAX_ENERGY, TILE_SIZE, PLAYFIELD_W, PLAYFIELD_H, TELEPORT_UNSET } from './constants';
-import type { Level, Tile } from './types';
+import type { Level, Tile, MapCoord } from './types';
 import type { Dir, Ghost, Pacman } from './entities';
 import { createGhost, stepGhost, collides, resetGhostPosition, SCARED_FRAMES, type GhostContext } from './ghosts';
+import { dir, getPath, type GhostDir } from './pathfinding';
 import {
   Tool,
   MAX_TOOLS,
@@ -22,6 +23,15 @@ import {
 const HALF = TILE_SIZE / 2; // 16
 const MOUTH_DELAY = 2; // pas de mouvement entre deux frames de bouche (~30/s à 60 Hz)
 const START_LIVES = 3; // vies de départ (player.lives = 3 dans le C)
+
+// --- Mode Reverse (le joueur incarne le fantôme rouge, le Pacman est une IA) ---
+const REVERSE_PAC_LIVES = 3; // captures nécessaires pour gagner le niveau
+const REVERSE_PAC_SPEED = 0.95; // le Pacman IA, un peu plus lent → capturable
+const REVERSE_DANGER = 5; // distance (cases) en deçà de laquelle le Pacman fuit
+const REVERSE_HUNT = 6; // distance en deçà de laquelle le Pacman chasse un fantôme bleu
+const REVERSE_CAPTURE_POINTS = 5000; // points par capture du Pacman
+// « eyes » fantôme (0=bas 1=gauche 2=droite 3=haut) → direction Pacman.
+const EYES_TO_DIR: Dir[] = [1, 2, 3, 0];
 const DEFAULT_DIFFICULTY = 2; // 0 facile · 1 moyen · 2 difficile (IA complète)
 const DEATH_PAUSE = 90; // frames de pause après une mort
 const BULLET_SPEED = 4 * MOVE_PIXELS; // 16 px/frame
@@ -111,6 +121,14 @@ export interface PlayState {
   warped: boolean; // téléportation par l'outil WARP ce frame (fx)
   spawnAppeared: SpawnKind; // 'pickup'/'tool' le frame où l'objet apparaît
   justTeleported: boolean; // garde anti-rebond du téléport
+  // --- mode Reverse (le joueur incarne le fantôme rouge) ---
+  reverse: boolean; // mode Reverse actif
+  pacmanDir: Dir | -1; // direction calculée par l'IA du Pacman
+  pacmanLives: number; // captures restantes du Pacman avant victoire du joueur
+  reverseLost: boolean; // le Pacman a vidé le labyrinthe → le joueur perd
+  pacmanFrozen: number; // frames de gel du Pacman (outil Gel — Reverse)
+  capturedPacman: boolean; // fx : le Pacman vient d'être capturé ce frame
+  playerEaten: boolean; // fx : le fantôme-joueur vient d'être mangé ce frame
 }
 
 function makePacman(level: Level): Pacman {
@@ -161,6 +179,7 @@ export interface PlayStateOptions {
   difficulty?: number;
   bonusLevel?: number;
   ghostSpeed?: number; // facteur de vitesse des fantômes (mode Survie : >1)
+  reverse?: boolean; // mode Reverse (joueur = fantôme rouge)
 }
 
 export function createPlayState(level: Level, opts: PlayStateOptions = {}): PlayState {
@@ -221,6 +240,13 @@ export function createPlayState(level: Level, opts: PlayStateOptions = {}): Play
     warped: false,
     spawnAppeared: 'none',
     justTeleported: false,
+    reverse: opts.reverse ?? false,
+    pacmanDir: -1,
+    pacmanLives: REVERSE_PAC_LIVES,
+    reverseLost: false,
+    pacmanFrozen: 0,
+    capturedPacman: false,
+    playerEaten: false,
   };
 }
 
@@ -305,7 +331,9 @@ function stepOnce(s: PlayState): void {
   const level = s.level;
 
   const phase = s.toolInUse[Tool.PHASE] ?? false;
-  if (s.desiredDir !== -1) applyTurn(pac, level, s.desiredDir, phase);
+  // En mode Reverse, Pacman est piloté par l'IA (pacmanDir) ; sinon par le joueur.
+  const wantDir = s.reverse ? s.pacmanDir : s.desiredDir;
+  if (wantDir !== -1) applyTurn(pac, level, wantDir, phase);
 
   // Blocage par un mur droit devant, une fois centré sur la cellule (sauf PHASE).
   let movex = true;
@@ -446,7 +474,12 @@ function eatPill(s: PlayState, cell: Tile, px: number, py: number): void {
   bumpCombo(s);
   if (s.energy > MAX_ENERGY) s.energy = MAX_ENERGY;
   if (s.pillsLeft > 0) s.pillsLeft--;
-  if (s.pillsLeft === 0) s.levelComplete = true;
+  // Toutes les pills mangées : niveau réussi… sauf en Reverse, où c'est le Pacman
+  // (IA) qui les mange et nous fait perdre.
+  if (s.pillsLeft === 0) {
+    if (s.reverse) s.reverseLost = true;
+    else s.levelComplete = true;
+  }
 }
 
 /** Points d'une pill normale, selon present/diamants puis multiplicateurs. */
@@ -795,9 +828,11 @@ export function stepGame(s: PlayState): void {
   s.bombExploded = false;
   s.warped = false;
   s.spawnAppeared = 'none';
+  s.capturedPacman = false;
+  s.playerEaten = false;
   s.scorePops.length = 0; // pops du frame précédent consommés
 
-  if (s.gameOver || s.levelComplete || s.awaitingRespawn) return;
+  if (s.gameOver || s.levelComplete || s.awaitingRespawn || s.reverseLost) return;
 
   updateBomb(s);
   s.levelTime++;
@@ -817,8 +852,15 @@ export function stepGame(s: PlayState): void {
   const pac = s.pacman;
 
   // Apparition/expiration des pickups & outils, expiration des effets.
-  updateSpawn(s);
+  // (Phase A du mode Reverse : pas d'apparition d'objets — viendra avec les outils Fantôme.)
+  if (!s.reverse) updateSpawn(s);
   updateTools(s);
+
+  // Mode Reverse : logique inversée dédiée (joueur = fantôme rouge, Pacman = IA).
+  if (s.reverse) {
+    stepReverse(s);
+    return;
+  }
 
   // Déplacement de Pacman. Vitesse : ×1,5 si CTRL (énergie) et/ou outil SPEED.
   pac.fast = s.wantFast && s.energy > 0;
@@ -856,6 +898,147 @@ export function stepGame(s: PlayState): void {
       if (collides(pac, g)) {
         handleCollision(s, g);
         if (s.deathPause > 0 || s.gameOver) return; // mort : on arrête la frame
+      }
+    }
+  }
+}
+
+// ===================== Mode Reverse =====================
+// Le joueur incarne le fantôme rouge (ghost[0]), les 3 autres sont des alliés IA,
+// et le Pacman est piloté par une IA qui fuit, mange les pills et chasse les
+// fantômes bleus quand il a gobé une super-pastille.
+
+/** Cellule de la pill la plus proche du Pacman (BFS de distances). */
+function nearestPillTarget(level: Level, from: MapCoord): MapCoord {
+  const grid = getPath(level, from);
+  let best: MapCoord | null = null;
+  let bestD = Infinity;
+  for (let y = 0; y < MAPY; y++) {
+    for (let x = 0; x < MAPX; x++) {
+      const c = level.map[y]![x]!;
+      if (c.isPill && c.tile) {
+        const d = grid[y]![x]!;
+        if (d >= 0 && d < 999 && d < bestD) {
+          bestD = d;
+          best = { x, y };
+        }
+      }
+    }
+  }
+  return best ?? from;
+}
+
+/** IA du Pacman (mode Reverse) : renvoie la direction à suivre. */
+function pacmanAI(s: PlayState): Dir | -1 {
+  const level = s.level;
+  const pac = s.pacman;
+  const self = { map: pac.map, dx: pac.dx, dy: pac.dy };
+
+  // Fantôme bleu le plus proche (à chasser) et menace la plus proche (à fuir).
+  let scaredG: Ghost | null = null;
+  let dScared = Infinity;
+  let threatG: Ghost | null = null;
+  let dThreat = Infinity;
+  for (const g of s.ghosts) {
+    if (g.dead) continue;
+    const d = Math.abs(g.map.x - pac.map.x) + Math.abs(g.map.y - pac.map.y);
+    if (g.scared) {
+      if (d < dScared) {
+        dScared = d;
+        scaredG = g;
+      }
+    } else if (d < dThreat) {
+      dThreat = d;
+      threatG = g;
+    }
+  }
+
+  let eyes: GhostDir;
+  if (scaredG && dScared <= REVERSE_HUNT) {
+    eyes = dir(level, self, scaredG.map, false, s.rng); // chasse le fantôme vulnérable
+  } else if (threatG && dThreat <= REVERSE_DANGER) {
+    // Fuite : vise la case opposée à la menace (même principe que le PANIC).
+    const fx = pac.map.x + (pac.map.x - threatG.map.x);
+    const fy = pac.map.y + (pac.map.y - threatG.map.y);
+    eyes = dir(level, self, { x: fx, y: fy }, false, s.rng);
+  } else {
+    eyes = dir(level, self, nearestPillTarget(level, pac.map), false, s.rng); // mange
+  }
+  return EYES_TO_DIR[eyes]!;
+}
+
+/** Capture du Pacman par un fantôme : points, décompte des vies, nouveau round. */
+function capturePacman(s: PlayState): void {
+  s.capturedPacman = true;
+  s.score += applyMultipliers(s, REVERSE_CAPTURE_POINTS);
+  s.scorePops.push({ x: s.pacman.x, y: s.pacman.y, value: REVERSE_CAPTURE_POINTS, big: true });
+  s.pacmanLives--;
+  if (s.pacmanLives <= 0) {
+    s.levelComplete = true; // toutes les vies du Pacman épuisées → niveau gagné
+    return;
+  }
+  // Nouveau round : Pacman et fantômes reprennent leurs positions de départ.
+  s.pacman = makePacman(s.level);
+  for (const g of s.ghosts) resetGhostPosition(g);
+  s.pacmanDir = -1;
+  s.desiredDir = -1;
+  s.moveAcc = 0;
+  s.ghostMoveAcc = 0;
+}
+
+/** Collision Pacman ↔ fantôme en mode Reverse (logique inversée). */
+function handleCollisionReverse(s: PlayState, g: Ghost): void {
+  if (g.scared) {
+    // Fantôme vulnérable (joueur ou allié) mangé par le Pacman → retour au spawn.
+    g.dead = true;
+    g.scared = false;
+    g.frozen = false;
+    g.eyes = 0;
+    if (g.index === 0) s.playerEaten = true;
+  } else {
+    capturePacman(s);
+  }
+}
+
+/** Avance les entités du mode Reverse (appelée par stepGame). */
+function stepReverse(s: PlayState): void {
+  const pac = s.pacman;
+
+  // IA du Pacman (immobile s'il est gelé par l'outil Gel).
+  if (s.pacmanFrozen > 0) {
+    s.pacmanFrozen--;
+    s.pacmanDir = -1;
+  } else {
+    s.pacmanDir = pacmanAI(s);
+    s.moveAcc += REVERSE_PAC_SPEED;
+    while (s.moveAcc >= 1 && !s.pacman.dead && !s.levelComplete && !s.reverseLost) {
+      s.moveAcc -= 1;
+      stepOnce(s);
+    }
+  }
+  if (s.levelComplete || s.reverseLost) return;
+
+  // Super-pastille mangée par le Pacman → fantômes (dont le joueur) vulnérables.
+  if (s.atePowerpill) frightenGhosts(s);
+
+  // Déplacement des fantômes : ghost[0] piloté par le joueur, 1-3 en IA alliée.
+  s.ghostMoveAcc += s.ghostSpeed;
+  const ctx: GhostContext = {
+    level: s.level,
+    pacman: pac,
+    red: s.ghosts[0]!,
+    difficulty: s.difficulty,
+    rng: s.rng,
+    panic: false,
+  };
+  while (s.ghostMoveAcc >= 1) {
+    s.ghostMoveAcc -= 1;
+    for (let i = 0; i < s.ghosts.length; i++) {
+      const g = s.ghosts[i]!;
+      stepGhost(g, ctx, i === 0 ? s.desiredDir : -1);
+      if (collides(pac, g)) {
+        handleCollisionReverse(s, g);
+        if (s.levelComplete || s.reverseLost) return;
       }
     }
   }
