@@ -6,6 +6,7 @@ import { Renderer } from '../platform/renderer';
 import { loadGameSprites, type GameSprites } from '../platform/assets';
 import { fetchLevel, levelPath, bonusPath } from '../platform/levelLoader';
 import { Input } from '../platform/input';
+import { TouchControls, isTouchDevice } from '../platform/touch';
 import { AudioManager } from '../platform/audio';
 import { PixiGame } from '../render/pixi/pixiGame';
 import type { MenuModel } from '../render/pixi/menuScene';
@@ -27,6 +28,15 @@ const glCanvas = getCanvas('gl');
 const renderer = new Renderer(uiCanvas);
 const pixi = new PixiGame();
 const input = new Input();
+
+// Contrôles tactiles (téléphone/tablette) : croix directionnelle + boutons
+// superposés en HTML, pilotant le même `Input` que le clavier. Sur appareil
+// tactile, on masque aussi la ligne d'aide clavier et on épure le HUD.
+const touchEnabled = isTouchDevice();
+if (touchEnabled) {
+  document.body.classList.add('touch');
+  new TouchControls(input);
+}
 
 // PWA : enregistrement du service worker en production uniquement.
 // En développement, on purge tout SW/cache existant pour ne jamais servir
@@ -224,7 +234,10 @@ async function bootstrap(): Promise<void> {
   (window as unknown as Record<string, unknown>).__dp2 = {
     session,
     audio,
+    input, // exposé pour le diagnostic et les tests headless (contrôles tactiles)
+    touch: touchEnabled,
     fx: () => pixi.debugFx(), // diagnostic : déclenche un effet « juice » de démo
+    pixiPacman: () => pixi.debugPacmanXY(), // position écran du sprite Pacman
     // Diagnostic du chargement des sprites de murs.
     diag() {
       const dim = (s: { img: CanvasImageSource } | undefined) => {
@@ -348,9 +361,9 @@ async function bootstrap(): Promise<void> {
       pixi.render(play, shadows, hud, now, alpha, true);
     }
 
-    // Overlay 2D : surimpressions + ligne d'aide discrète.
+    // Overlay 2D : surimpressions + ligne d'aide discrète (clavier seulement).
     renderer.clear();
-    drawHelpLine(ctx, fps);
+    if (!touchEnabled) drawHelpLine(ctx, fps);
     if (screen === 'levelIntro') drawLevelIntro(ctx, session);
     if (screen === 'gameOver') drawGameOver(ctx);
     if (screen === 'paused') drawPause(ctx);
@@ -375,6 +388,7 @@ async function bootstrap(): Promise<void> {
       comboMult: ci.mult,
       comboProgress: ci.progress,
       timeLeft: session.mode === 'timeattack' ? session.timeLeft : -1,
+      compact: touchEnabled,
     };
   }
 

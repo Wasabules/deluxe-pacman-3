@@ -138,6 +138,7 @@ export class PixiGame {
     for (const s of this.wallSprites) this.world.addChild(s);
 
     this.entities.rebuildPills(play.level);
+    this.entities.snap(play); // fige les entités aux positions de départ du nouveau niveau
     this.effects.reset(); // pas d'effets résiduels d'un niveau à l'autre
   }
 
@@ -156,6 +157,11 @@ export class PixiGame {
   /** Diagnostic : déclenche un effet de démonstration au centre du labyrinthe. */
   debugFx(): void {
     this.effects.demo(PLAYFIELD_W / 2, PLAYFIELD_H / 2);
+  }
+
+  /** Diagnostic : position écran du sprite Pacman (test d'interpolation/snap). */
+  debugPacmanXY(): { x: number; y: number } {
+    return this.entities.pacmanScreenPos;
   }
 
   /** Affiche une frame de jeu. `entitiesVisible=false` (flash) : décor seul.

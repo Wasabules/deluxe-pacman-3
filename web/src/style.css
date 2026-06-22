@@ -39,3 +39,176 @@ body {
 #ui {
   pointer-events: none;
 }
+
+/* ===================== Contrôles tactiles (mobile) =====================
+   Overlay HTML superposé au jeu, affiché seulement si body.touch. Le conteneur
+   laisse passer les touchers (pointer-events:none) ; seuls les boutons captent.
+   Couleurs néon cohérentes avec le HUD : cyan (croix), magenta (tir), vert (boost). */
+#touch {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  touch-action: none;
+}
+body.touch #touch {
+  display: block;
+}
+#touch .tb,
+#touch .dpad {
+  pointer-events: auto;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Croix directionnelle (bas-gauche) — zone ronde façon joystick. */
+#touch .dpad {
+  position: absolute;
+  left: calc(18px + env(safe-area-inset-left));
+  bottom: calc(22px + env(safe-area-inset-bottom));
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(20, 24, 54, 0.6), rgba(8, 10, 28, 0.5));
+  border: 2px solid rgba(0, 240, 255, 0.5);
+  box-shadow: 0 0 16px rgba(0, 240, 255, 0.25), inset 0 0 18px rgba(0, 240, 255, 0.12);
+}
+#touch .hub {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 30px;
+  height: 30px;
+  margin: -15px 0 0 -15px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 240, 255, 0.35);
+}
+#touch .arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0.5;
+}
+#touch .arrow.up {
+  left: 50%;
+  top: 13px;
+  margin-left: -13px;
+  border-left: 13px solid transparent;
+  border-right: 13px solid transparent;
+  border-bottom: 18px solid #00f0ff;
+}
+#touch .arrow.down {
+  left: 50%;
+  bottom: 13px;
+  margin-left: -13px;
+  border-left: 13px solid transparent;
+  border-right: 13px solid transparent;
+  border-top: 18px solid #00f0ff;
+}
+#touch .arrow.left {
+  top: 50%;
+  left: 13px;
+  margin-top: -13px;
+  border-top: 13px solid transparent;
+  border-bottom: 13px solid transparent;
+  border-right: 18px solid #00f0ff;
+}
+#touch .arrow.right {
+  top: 50%;
+  right: 13px;
+  margin-top: -13px;
+  border-top: 13px solid transparent;
+  border-bottom: 13px solid transparent;
+  border-left: 18px solid #00f0ff;
+}
+#touch .dpad[data-dir='0'] .up,
+#touch .dpad[data-dir='1'] .down,
+#touch .dpad[data-dir='2'] .left,
+#touch .dpad[data-dir='3'] .right {
+  opacity: 1;
+  filter: drop-shadow(0 0 6px #00f0ff);
+}
+
+/* Boutons d'action (bas-droite) + pause (haut-droite). */
+#touch .tb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-family: 'Trebuchet MS', system-ui, sans-serif;
+  font-weight: bold;
+  color: #fff;
+  background: radial-gradient(circle, rgba(40, 16, 60, 0.6), rgba(12, 8, 28, 0.5));
+  border: 2px solid rgba(255, 43, 214, 0.55);
+  box-shadow: 0 0 14px rgba(255, 43, 214, 0.25);
+  cursor: pointer;
+}
+#touch .tb.on {
+  transform: scale(0.92);
+  filter: brightness(1.4);
+}
+#touch .actions {
+  position: absolute;
+  right: calc(18px + env(safe-area-inset-right));
+  bottom: calc(26px + env(safe-area-inset-bottom));
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+}
+#touch .fire {
+  width: 90px;
+  height: 90px;
+  font-size: 30px;
+  color: #ff6cdf;
+  border-color: rgba(255, 43, 214, 0.85);
+}
+#touch .boost {
+  width: 66px;
+  height: 66px;
+  font-size: 28px;
+  color: #39ff14;
+  border-color: rgba(57, 255, 20, 0.7);
+  box-shadow: 0 0 14px rgba(57, 255, 20, 0.22);
+}
+#touch .pause {
+  position: absolute;
+  top: calc(12px + env(safe-area-inset-top));
+  right: calc(14px + env(safe-area-inset-right));
+  width: 46px;
+  height: 46px;
+  font-size: 20px;
+  color: #00f0ff;
+  border-color: rgba(0, 240, 255, 0.6);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
+}
+
+/* Portrait : on cale le jeu en haut ; l'espace libre en bas accueille la croix
+   et les boutons (qui ne recouvrent alors plus le labyrinthe). */
+@media (orientation: portrait) {
+  body.touch {
+    align-items: flex-start;
+  }
+  body.touch #stage {
+    margin-top: env(safe-area-inset-top);
+  }
+}
+
+/* Écrans courts (paysage de téléphone) : croix et boutons plus compacts. */
+@media (orientation: landscape) and (max-height: 420px) {
+  #touch .dpad {
+    width: 120px;
+    height: 120px;
+  }
+  #touch .fire {
+    width: 74px;
+    height: 74px;
+  }
+  #touch .boost {
+    width: 56px;
+    height: 56px;
+  }
+}

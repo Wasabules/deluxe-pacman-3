@@ -128,6 +128,16 @@ export class EntityView {
     capture(this.bulletM, play.bullet.x, play.bullet.y, !play.bullet.active);
   }
 
+  /** Fige les tampons d'interpolation sur les positions courantes (snap immédiat).
+   *  Appelé au chargement d'un niveau / changement de joueur : sans cela, pendant
+   *  le « READY? », Pacman et les fantômes resteraient affichés aux positions du
+   *  niveau précédent (les tampons ne sont sinon réécrits qu'en cours de partie). */
+  snap(play: PlayState): void {
+    capture(this.pacM, play.pacman.x, play.pacman.y, true);
+    for (let i = 0; i < 4; i++) capture(this.ghostM[i]!, play.ghosts[i]!.x, play.ghosts[i]!.y, true);
+    capture(this.bulletM, play.bullet.x, play.bullet.y, true);
+  }
+
   /** @param alpha fraction (0..1) entre le pas précédent et le pas courant. */
   update(play: PlayState, alpha: number): void {
     const pp = lerp(this.pacM, alpha, play.pacman.x, play.pacman.y);
@@ -155,6 +165,11 @@ export class EntityView {
     if (Math.floor(b.timer / speed) % 2 === 0) {
       this.bombG.circle(6, -9, 3).fill(0xff5a00);
     }
+  }
+
+  /** Position écran (px) du sprite Pacman après interpolation (diagnostic/tests). */
+  get pacmanScreenPos(): XY {
+    return { x: this.pacman.position.x, y: this.pacman.position.y };
   }
 
   /** Cache les entités mobiles (phase éteinte du clignotement de fin de niveau). */

@@ -26,6 +26,7 @@ export interface HudData {
   comboMult: number; // multiplicateur de série courant
   comboProgress: number; // progression (0..1) vers le palier suivant
   timeLeft: number; // frames restantes (Time Attack), -1 si hors mode chronométré
+  compact?: boolean; // appareil tactile : HUD épuré (libellés textuels masqués)
 }
 
 function label(text: string, size: number, color: number, weight: TextStyleFontWeight = 'bold'): Text {
@@ -138,6 +139,14 @@ export class SideHud {
     this.livesLabel.text = tr.lives;
     this.energyLabel.text = tr.energy;
     this.toolLabel.text = tr.tool;
+
+    // HUD épuré sur mobile : on masque les petits libellés textuels (les valeurs
+    // et icônes restent), pour alléger l'affichage sur un petit écran.
+    const showLabels = !d.compact;
+    this.scoreLabel.visible = showLabels;
+    this.livesLabel.visible = showLabels;
+    this.energyLabel.visible = showLabels;
+    this.toolLabel.visible = showLabels;
 
     this.scoreVal.text = d.score.toLocaleString('en-US');
     this.playerVal.text = d.playerLabel;

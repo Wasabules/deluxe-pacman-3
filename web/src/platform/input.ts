@@ -52,14 +52,23 @@ export class Input {
     this.queue.length = 0;
   }
 
+  /** Injecte une touche logique dans la file (utilisé par les contrôles tactiles). */
+  pushKey(k: string): void {
+    this.queue.push(k);
+  }
+
+  // --- Tactile (croix/boutons à l'écran ; cf. platform/touch.ts) ---
+  touchFast = false;
+  touchFire = false;
+
   /** CTRL maintenu → mode rapide. */
   get fast(): boolean {
-    return this.down.has('control') || this.gpFast;
+    return this.down.has('control') || this.gpFast || this.touchFast;
   }
 
   /** Espace → tir. */
   get firing(): boolean {
-    return this.down.has(' ') || this.gpFire;
+    return this.down.has(' ') || this.gpFire || this.touchFire;
   }
 
   isDown(key: string): boolean {
