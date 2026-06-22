@@ -24,6 +24,12 @@ export class TouchControls {
     this.root = document.createElement('div');
     this.root.id = 'touch';
     this.root.innerHTML = `
+      <button class="tb fs" type="button" aria-label="Plein écran">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor"
+             stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" />
+        </svg>
+      </button>
       <div class="dpad" aria-label="Direction">
         <span class="arrow up"></span><span class="arrow down"></span>
         <span class="arrow left"></span><span class="arrow right"></span>
@@ -36,6 +42,7 @@ export class TouchControls {
       </div>`;
     document.body.appendChild(this.root);
 
+    this.bindFullscreen(this.q('.fs'));
     this.bindDpad(this.q('.dpad'));
     this.bindHold(this.q('.boost'), (on) => (input.touchFast = on));
     this.bindHold(this.q('.fire'), (on) => {
@@ -123,6 +130,25 @@ export class TouchControls {
     const off = (): void => btn.classList.remove('on');
     btn.addEventListener('pointerup', off);
     btn.addEventListener('pointercancel', off);
+  }
+
+  // Bouton plein écran : masque les barres du navigateur sur mobile. On le cache
+  // une fois en plein écran (on en sort via le geste système ou la pause).
+  private bindFullscreen(btn: HTMLElement): void {
+    const el = document.documentElement as HTMLElement & { webkitRequestFullscreen?: () => Promise<void> };
+    const doc = document as Document & { webkitFullscreenElement?: Element };
+    const request = el.requestFullscreen?.bind(el) ?? el.webkitRequestFullscreen?.bind(el);
+    if (!request) {
+      btn.style.display = 'none'; // API absente (ex. iOS Safari → installer en PWA)
+      return;
+    }
+    this.bindTap(btn, () => void Promise.resolve(request()).catch(() => {}));
+    const sync = (): void => {
+      const fs = document.fullscreenElement ?? doc.webkitFullscreenElement ?? null;
+      btn.style.display = fs ? 'none' : '';
+    };
+    document.addEventListener('fullscreenchange', sync);
+    document.addEventListener('webkitfullscreenchange', sync);
   }
 }
 

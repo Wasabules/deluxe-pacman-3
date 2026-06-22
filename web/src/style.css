@@ -185,6 +185,16 @@ body.touch #touch {
   border-color: rgba(0, 240, 255, 0.6);
   box-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
 }
+#touch .fs {
+  position: absolute;
+  top: calc(12px + env(safe-area-inset-top));
+  left: calc(14px + env(safe-area-inset-left));
+  width: 46px;
+  height: 46px;
+  color: #00f0ff;
+  border-color: rgba(0, 240, 255, 0.6);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
+}
 
 /* Portrait : on cale le jeu en haut ; l'espace libre en bas accueille la croix
    et les boutons (qui ne recouvrent alors plus le labyrinthe). */
